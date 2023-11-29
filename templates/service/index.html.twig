@@ -1,0 +1,35 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Service index{% endblock %}
+
+{% block body %}
+    <section class="form-container" id="contact">
+
+        <h1>Service index cards</h1>
+
+        <div class="row">
+            {% for service in services %}
+                <div class="card mb-4 col-md-4">
+                    <img src="{{ asset('uploads/images/' ~ service.img) }}" class="card-img-top" alt="{{ service.servicename }}" style="max-height: 200px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">{{ service.servicename }}</h5>
+                        <p class="card-text">
+                            <strong>Servicenumber:</strong> {{ service.serviceid }}<br>
+                            <strong>Price:</strong> {{ service.price }}
+                        </p>
+                        <div class="btn-group">
+                            <a href="{{ path('app_service_show', {'serviceid': service.serviceid}) }}" class="btn btn-info">Show</a>
+                            <a href="{{ path('app_service_edit', {'serviceid': service.serviceid}) }}" class="btn btn-warning">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <p>No records found</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a href="{{ path('app_service_new') }}" class="btn bg-danger mt-4">Create new</a>
+    </section>
+{% endblock %}

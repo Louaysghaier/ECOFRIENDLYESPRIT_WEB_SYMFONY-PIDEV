@@ -1,0 +1,22 @@
+{# src/templates/search/_service_card.html.twig #}
+{% for service in services %}
+<div class="col-lg-4 mb-4">
+    <div class="meeting-item" style="width: 100%;">
+        <div class="thumb" style="text-align: center;">
+            {% if service.getImg() is not null %}
+                <img src="{{ asset('uploads/images/' ~ service.getImg()) }}" alt="{{ service.getServicename() }}" style="width: 100%; height: auto;">
+            {% else %}
+                <p>No image available</p>
+            {% endif %}
+        </div>
+        <div class="down-content">
+            <div class="date">
+                <h6 >NAME OF THE SERVICE: <b>{{ service.getServicename() }} </b></h6>
+            </div>
+            <h4>PRICE: {{ service.getPrice() }}</h4><br>
+            <button class="btn btn-danger" onclick="addToOrder({{ service.getServiceid() }})">Add me!</button>
+            <a class="btn btn-danger" href="{{ path('app_orders_show_details' , {'serviceid': service.serviceid}) }}">Show</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
