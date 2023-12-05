@@ -16,11 +16,5 @@ class TemplateController extends AbstractController
         ]);
     }
 
-    #[Route('/templateback', name: 'app_template')]
-    public function indexback(): Response
-    {
-        return $this->render('template/indexback.html.twig', [
-            'controller_name' => 'TemplateController',
-        ]);
-    }
+
 }

@@ -91,7 +91,7 @@ class OrdersController extends AbstractController
         $couponCode = $request->get('couponCode');
         $couponPrice = 0;
         // Check if the coupon code is "ecofriendlyesprit" and apply a discount
-        if ($couponCode === 'ECO11') {
+        if ($couponCode === 'ecoTN11') {
             $sumOfPaidOrders -= 10;
             $couponPrice = 10;
         }
@@ -145,8 +145,8 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
     {
         $session = $this->requestStack->getSession();
         $user = $session->get('User2') ;
-    $orderCount = $ordersRepository->countOrdersForUser($user->getIduser());
-    $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser()) + 2;
+        $orderCount = $ordersRepository->countOrdersForUser($user->getIduser());
+        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser()) + 2;
 
     
 
@@ -165,8 +165,8 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
     public function checkoutNormal(OrdersRepository $ordersRepository): Response
     {  $session = $this->requestStack->getSession();
         $user = $session->get('User2') ;
-    $orderCount = $ordersRepository->countOrdersForUser($user->getIduser());
-    $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser()) + 2;
+        $orderCount = $ordersRepository->countOrdersForUser($user->getIduser());
+        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser()) + 2;
 
    
         $couponPrice = 0;
@@ -281,7 +281,7 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
         }
 
         $order->setUserid($user);
-        $order->addServiceid($service); // Associate the service with the order
+        $order->addServiceid($service); // Associate the service with the orderuser
         $order->setServices($service);
 
         $order->setNumOrder($this->generateRandomNumOrder());

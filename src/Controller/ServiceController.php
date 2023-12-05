@@ -176,7 +176,7 @@ class ServiceController extends AbstractController
     ): Response {
         $session = $this->requestStack->getSession();
         $user = $session->get('User2') ;
-        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders();
+        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser());
         $PaidOrd = $ordersRepository->PaidOrders($user->getIduser());
         $PaidOrders=250-$PaidOrd;
         if ($sumOfPaidOrders > 40) {

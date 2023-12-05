@@ -6,6 +6,7 @@
     "require": {
         "php": ">=8.0",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.11",
@@ -38,6 +39,7 @@
         "symfony/security-bundle": "5.4.*",
         "symfony/serializer": "5.4.*",
         "symfony/string": "5.4.*",
+        "symfony/swiftmailer-bundle": "*",
         "symfony/translation": "5.4.*",
         "symfony/twig-bundle": "5.4.*",
         "symfony/validator": "5.4.*",
@@ -45,8 +47,7 @@
         "symfony/yaml": "5.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
-        "twilio/sdk": "^7.12",
-      "ext-curl": "*"
+        "twilio/sdk": "^7.12"
     },
     "config": {
         "allow-plugins": {

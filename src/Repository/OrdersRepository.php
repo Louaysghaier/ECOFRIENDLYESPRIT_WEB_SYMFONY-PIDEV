@@ -53,6 +53,15 @@ class OrdersRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+    public function statistique(): float
+    {
+        return (float) $this->createQueryBuilder('o')
+            ->select('SUM(o.priceorder)')
+            ->where('o.status = :status')
+            ->setParameter('status', 'wanted')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
     public function PaidOrders(int $userId): float
     {
         return (float) $this->createQueryBuilder('o')

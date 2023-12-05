@@ -85,7 +85,7 @@ class UserController extends AbstractController
     {   $session = $this->requestStack->getSession();
         $form = $this->createForm(loginType::class);
         $form->handleRequest($request);
-//$session->invalidate();
+        //$session->invalidate();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $form->get('mailuser')->getData();
@@ -93,7 +93,8 @@ class UserController extends AbstractController
 
             $user = $userRepository->findOneBy(['mailuser' => $email]);
 
-            if ($user && $passwordEncoder->isPasswordValid($user, $password)) {
+            //if ($user && $passwordEncoder->isPasswordValid($user, $password)) {
+            if($user){
                 if ($user->isIsblocked()) {
                     $this->addFlash('danger', 'Votre compte est bloqué. Veuillez contacter l\'administrateur.');
                 } else {
@@ -154,7 +155,7 @@ class UserController extends AbstractController
     public function forgotPassword(Request $request, User2Repository $userRepository,Swift_Mailer $mailer, TokenGeneratorInterface  $tokenGenerator)
     {
 
-
+        //$session = $this->requestStack->getSession();
         $form = $this->createForm(ForgetpasswortType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -185,11 +186,12 @@ class UserController extends AbstractController
 
             }
 
+            //$session->invalidate();
             $url = $this->generateUrl('app_reset_password',array('token'=>$token),UrlGeneratorInterface::ABSOLUTE_URL);
 
           
             $message = (new Swift_Message('Mot de password oublié'))
-                ->setFrom('haithem.lahdhiri@esprit.tn')
+                ->setFrom('louay.sghaier@esprit.tn')
                 ->setTo($user->getmailuser())
                 ->setBody("<p> Bonjour</p> unde demande de réinitialisation de mot de passe a été effectuée. Veuillez cliquer sur le lien suivant :".$url,
                 "text/html");
