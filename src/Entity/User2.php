@@ -4,6 +4,10 @@ namespace App\Entity;
 
 use App\Repository\User2Repository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * User2
@@ -11,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user2")
  * @ORM\Entity(repositoryClass=User2Repository::class)
  */
-class User2
+class User2  implements UserInterface
 {
     /**
      * @var int
@@ -23,37 +27,63 @@ class User2
     private $iduser;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nomuser", type="string", length=100, nullable=false)
+    
+     
+     * @Assert\NotBlank(message=" nom doit etre non vide")
+     * 
+     * @ORM\Column(type="string", length=255)
      */
     private $nomuser;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="prenomuser", type="string", length=100, nullable=false)
+    
+     
+     * @Assert\NotBlank(message=" prenom doit etre non vide")
+     * 
+     * @ORM\Column(type="string", length=255)
      */
+    /*@Assert\NotBlank(message="L'email doit être non vide")
+     * @Assert\Email(message="L'email '{{ value }}' n'est pas une adresse email valide.")
+     * @Assert\Callback(callback="validateMailuser")*/
     private $prenomuser;
-
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mailuser", type="string", length=200, nullable=false)
+     * @Assert\NotBlank(message="L'email doit être non vide")
+     * @Assert\Email(message="L'email '{{ value }}' n'est pas une adresse email valide.")
+     * @Assert\Regex(
+     *     pattern="/\*\*\*@/",
+     *     match=false,
+     *     message="L'email ne peut pas contenir '***@**'."
+     * )
+     * @ORM\Column(type="string", length=255)
      */
     private $mailuser;
 
+        public function validateMailuser(ExecutionContextInterface $context): void
+    {
+        $value = $this->mailuser;
+
+        if (strpos($value, '***@**') !== false) {
+            $context->buildViolation("L'email ne peut pas contenir '***@**'.")
+                ->atPath('mailuser')
+                ->addViolation();
+        }
+    }
+    
     /**
-     * @var string
+     * @Assert\NotBlank(message=" password doit etre non vide")
+     * @Assert\Length(
+     *      min = 8,
+     *      minMessage=" Entrer un password au mini de 8 caracteres"
      *
-     * @ORM\Column(name="mdpuser", type="string", length=300, nullable=false)
+     *     )
+     * @ORM\Column(name="mdpuser", type="string", length=255, nullable=true)
      */
     private $mdpuser;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="adressuser", type="string", length=200, nullable=false)
+     /**
+     * @Assert\NotBlank(message=" adresse doit etre non vide")
+     
+     * @ORM\Column(name="adressuser", type="string", length=255, nullable=true)
      */
     private $adressuser;
 
@@ -64,26 +94,31 @@ class User2
      */
     private $walletuser = 250;
 
-    /**
-     * @var string
+     /**
+     * @Assert\NotBlank(message=" classe doit etre non vide")
      *
      * @ORM\Column(name="classeuser", type="string", length=200, nullable=false)
      */
     private $classeuser;
 
-    /**
-     * @var string|null
+     /**
+     * @Assert\NotBlank(message=" role doit etre non vide")
      *
-     * @ORM\Column(name="roleuser", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="roleuser", type="string", length=200, nullable=false)
      */
-    private $roleuser = 'NULL';
+    private $roleuser ;
 
     /**
      * @var bool|null
      *
      * @ORM\Column(name="isBlocked", type="boolean", nullable=true)
      */
-    private $isblocked = '0';
+    private $isblocked = false;
+    
+    /**
+     * @ORM\Column(type="string", length=180, )
+     */
+    private $reset_token;
 
     public function getIduser(): ?int
     {
@@ -197,11 +232,50 @@ class User2
 
         return $this;
     }
+       /**
+     * @return mixed
+     */
+    public function getResetToken()
+    {
+        return $this->reset_token;
+    }
 
+    /**
+     * @param mixed $reset_token
+     */
+    public function setResetToken($reset_token): void
+    {
+        $this->reset_token = $reset_token;
+    }
+       
+    public function getRoles(): array
+    {
+        return [$this->roleuser ?? 'ROLE_USER'];
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->mdpuser;
+    }
+
+    public function getSalt(): ?string
+    {
+        // Vous n'avez pas besoin de sel avec le hachage de mot de passe moderne
+        return null;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->mailuser;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Si vous stockez des données temporaires et sensibles dans l'utilisateur, effacez-les ici
+        // Cette méthode est appelée après que le mot de passe a été utilisé pour l'authentification
+    }
     public function __toString(): string
     {
         return $this->nomuser . ' ' . $this->prenomuser;
     }
-
-
 }

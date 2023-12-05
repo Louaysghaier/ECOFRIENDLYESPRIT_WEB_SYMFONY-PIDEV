@@ -15,13 +15,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\CurrentUserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use App\Service\EmailService;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Twilio\Rest\Client;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 #[Route('/orders')]
 class OrdersController extends AbstractController
-{
+{       //private $currentUserService;
+
+    private $requestStack;
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder,RequestStack $requestStack)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+        $this->requestStack = $requestStack;
+    }
     #[Route('/pannier', name: 'app_orders_index', methods: ['GET','POST'])]
     public function index(OrdersRepository $ordersRepository, Request $request,EntityManagerInterface $entityManager): Response
-    {           $info = '';
+    {$session = $this->requestStack->getSession();
+        $user = $session->get('User2') ;
 
         // Handle the form submission logic if the request is POST
 
@@ -32,48 +44,54 @@ class OrdersController extends AbstractController
         $order = $entityManager->getRepository(Orders::class)->findOneBy(['numOrder' => $numOrder]);
             if ($order) {
                 if ($secretCode == 'TN1122') {
-                    if ($order->getStatus() == 'payed') {
-                        $info = 'Service is paid & call us +216 55125290 ';
+                    if ($order->getStatus() == 'payed' ) {
+                        $info1 = 'Service is paid & call us +216 55125290 ';
                     } else {
-                        $info = 'You have not paid yet ';
+                        $info1 = 'You have not paid yet ';
                     }
                 } else {
-                    $info = 'Error: Check your secret code from your email';
+                    $info1 = 'Error: Check your secret code from your phone';
                 }
-            } else {
-                $info = 'Order not found';
+            }
+            else {
+                $info1 = 'You Need To Check Your order characteristics  !';
+
             }
 
 
+
         // Calculate the sum of paid orders
-        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders();
+        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser());
         $couponPrice = 0;
-        $orderCount = $ordersRepository->countOrdersForUser(1);
+        $orderCount = $ordersRepository->countOrdersForUser($user->getIduser());
     
         // Add any additional fixed value (e.g., 2 in your case)
         $sumOfPaidOrders += 2;
-    
+
         // Render the template
         return $this->render('orders/index.html.twig', [
-            'orders' => $ordersRepository->findOrdersByUserAndStatus(1, 'wanted'),
+            'orders' => $ordersRepository->findOrdersByUserAndStatus($user->getIduser(), 'wanted'),
+            'orders1' => $ordersRepository->findOrdersByUser($user->getIduser()),
             'sumOfPaidOrders' => $sumOfPaidOrders,
             'couponPrice' => $couponPrice,
             'orderCount'=>  $orderCount,
-            'info'=>$info,
+            'a'=>$a ?? null,
+            'info1'=>$info1,
         ]);
     }
     #[Route('/update-order-summary', name: 'app_update_order_summary', methods: ['GET'])]
     public function updateOrderSummary(OrdersRepository $ordersRepository, Request $request): Response
-    {   
+    {   $session = $this->requestStack->getSession();
+        $user = $session->get('User2') ;
         // Calculate the sum of paid orders
-        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders();
-        $orderCount = $ordersRepository->countOrdersForUser(1);
-        $previousSumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders();
+        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser());
+        $orderCount = $ordersRepository->countOrdersForUser($user->getIduser());
+        $previousSumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser());
         // Get the coupon code from the request
         $couponCode = $request->get('couponCode');
         $couponPrice = 0;
         // Check if the coupon code is "ecofriendlyesprit" and apply a discount
-        if ($couponCode === 'ecofriendlyesprit') {
+        if ($couponCode === 'ECO11') {
             $sumOfPaidOrders -= 10;
             $couponPrice = 10;
         }
@@ -82,9 +100,11 @@ class OrdersController extends AbstractController
         $sumOfPaidOrders += 2;
         $previousSumOfPaidOrders+=2;
         $updated = $sumOfPaidOrders !== $previousSumOfPaidOrders;
+        $session = $this->requestStack->getSession();
+        $user = $session->get('User2') ;
         // Render the template
         $orderSummaryHtml = $this->renderView('orders/index_order_summary.html.twig', [
-            'orders' => $ordersRepository->findOrdersByUser(1),
+            'orders' => $ordersRepository->findOrdersByUser($user->getIduser()),
             'previousSumOfPaidOrders' =>$previousSumOfPaidOrders,
             'sumOfPaidOrders' => $sumOfPaidOrders,
             'couponPrice' => $couponPrice,
@@ -123,9 +143,10 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
 #[Route('/checkout/{updated}', name: 'app_orders_checkout_updated', methods: ['GET', 'POST'], requirements: ['updated' => 'true|false'])]
     public function checkoutUpdated($updated, OrdersRepository $ordersRepository): Response
     {
-   
-    $orderCount = $ordersRepository->countOrdersForUser(1);
-    $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders() + 2;
+        $session = $this->requestStack->getSession();
+        $user = $session->get('User2') ;
+    $orderCount = $ordersRepository->countOrdersForUser($user->getIduser());
+    $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser()) + 2;
 
     
 
@@ -134,7 +155,7 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
    
 
     return $this->render('orders/checkout.html.twig', [
-        'orders' => $ordersRepository->findOrdersByUser(1),
+        'orders' => $ordersRepository->findOrdersByUser($user->getIduser()),
         'sumOfPaidOrders' => $sumOfPaidOrders,
         'couponPrice' => $couponPrice,
         'orderCount' => $orderCount,
@@ -142,16 +163,17 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
 }
     #[Route('/checkout', name: 'app_orders_checkout_normal', methods: ['GET', 'POST'])]
     public function checkoutNormal(OrdersRepository $ordersRepository): Response
-    { 
-    $orderCount = $ordersRepository->countOrdersForUser(1);
-    $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders() + 2;
+    {  $session = $this->requestStack->getSession();
+        $user = $session->get('User2') ;
+    $orderCount = $ordersRepository->countOrdersForUser($user->getIduser());
+    $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser()) + 2;
 
    
         $couponPrice = 0;
     
 
     return $this->render('orders/checkout.html.twig', [
-        'orders' => $ordersRepository->findOrdersByUser(1),
+        'orders' => $ordersRepository->findOrdersByUser($user->getIduser()),
         'sumOfPaidOrders' => $sumOfPaidOrders,
         'couponPrice' => $couponPrice,
         'orderCount' => $orderCount,
@@ -207,6 +229,7 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
             'order' => $order,
             'form' => $form,
         ]);
+
     }
 
     #[Route('/{orderid}', name: 'app_orders_delete', methods: ['POST'])]
@@ -219,12 +242,8 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
 
         return $this->redirectToRoute('app_orders_index', [], Response::HTTP_SEE_OTHER);
     }
-    private $currentUserService;
 
-    public function __construct(CurrentUserService $currentUserService)
-    {
-        $this->currentUserService = $currentUserService;
-    }
+
 /**
      * Generate a random number with 4 digits and 2 characters.
      *
@@ -242,23 +261,25 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
     public function addToOrder(Request $request): Response
     {
         $serviceId = $request->request->get('serviceId');
-
+        $session = $this->requestStack->getSession();
+        $user = $session->get('User2') ;
         // Fetch the Service entity from the database using $serviceId
         $service = $this->getDoctrine()->getRepository(Service::class)->find($serviceId);
 
         if (!$service) {
             return new JsonResponse(['success' => false, 'message' => 'Service not found.']);
         }
-        // Get the current user from the CurrentUserService
-       // $user = $this->currentUserService->getCurrentUser();
+
        $entityManager = $this->getDoctrine()->getManager();
 
-        $user = $entityManager->getRepository(User2::class)->findOneBy([]);
 
-        if (!$user instanceof User2) {
-            return new JsonResponse(['success' => false, 'message' => 'User not found.']);
-        }
+
         $order = new Orders();
+        if (!$entityManager->contains($user)) {
+            // If $user is not managed, you might want to fetch the managed entity from the EntityManager
+            $user = $entityManager->merge($user);
+        }
+
         $order->setUserid($user);
         $order->addServiceid($service); // Associate the service with the order
         $order->setServices($service);
@@ -266,14 +287,13 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
         $order->setNumOrder($this->generateRandomNumOrder());
         $order->setPhonenumber("55125290");
         $order->setPriceorder($service->getPrice());
-        $order->setServices($service);
+        //$order->setServices($service);
         $order->setStatus("wanted");
         // Persist and flush the entities
         $entityManager->persist($order);
-        
+        $entityManager->flush();
         try {
-            $entityManager->flush();
-            
+
             // If we reach this point, the order was successfully created
             $orderData = [
                 'orderId' => $order->getOrderid(),
@@ -296,22 +316,52 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
                     // You can add more services if the order involves multiple services
                 ],
             ];
-        
+            //$entityManager->flush();
+            $this->addFlash('success', 'Your Service is added to order Check Your basket!');
             return new JsonResponse(['success' => true, 'message' => 'Service added to order.', 'order' => $orderData]);
-        } catch (\Exception $e) {
-            // Handle exceptions, log them, or return an error response
+
+        }
+        catch (\Exception $e) {
             return new JsonResponse(['success' => false, 'message' => 'Failed to create order.']);
         }
     }
+    //private $ordersRepository;
+    public function sendSms(): Response
+    {
+        // Vos identifiants Twilio
+        $accountSid = 'AC3d76eb9005b49c7a2a73ce650a34c6f5';
+        $authToken = '159461fe9e711b3c74b8f86e51098960';
+        $twilioNumber = '+17196940243';
 
+        // Le numéro de téléphone de destination
+        $toPhoneNumber = '+21655125290';
+       // $orders = $this->ordersRepository->findOrdersByUser(1);
+        // Le corps du message SMS
+        $messageBody = 'YOUR SECRET CODE IS TN1122 FOR CHECKING YOUR ORDER !';
+
+        // Créer le client Twilio
+        $twilio = new Client($accountSid, $authToken);
+
+        // Envoyer le SMS
+        $message = $twilio->messages
+            ->create($toPhoneNumber, [
+                'from' => $twilioNumber,
+                'body' => $messageBody,
+            ]);
+
+        // Gérer la réponse ou faire d'autres actions nécessaires
+
+        return new Response('SMS envoyé avec succès!');
+    }
 
     #[Route("/update_orders_status", name: 'update_orders_status_route', methods: ['POST','GET'])]
    // #[ParamConverter("ordersToUpdate", class: "App\Entity\Orders")]
-    public function updateOrdersStatus(Request $request, EntityManagerInterface $entityManager): Response
+    public function updateOrdersStatus(Request $request, EntityManagerInterface $entityManager,EmailService $emailService): Response
     {
-
+        $session = $this->requestStack->getSession();
+        $user = $session->get('User2') ;
         # Fetch orders with the current status
-        $ordersToUpdate = $entityManager->getRepository(Orders::class)->findBy(['status' => 'wanted', 'userid' => 1]);
+        $ordersToUpdate = $entityManager->getRepository(Orders::class)->findBy(['status' => 'wanted', 'userid' => $user->getIduser()]);
         //update the orders status fields
         foreach ($ordersToUpdate as $order) {
             # Update the status of each order
@@ -319,12 +369,16 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
             $entityManager->persist($order);
         }
 
-        # Persist the changes to the database
         $entityManager->flush();
-            //add a mail logic to send mail to that user
-      //  $User = $entityManager->getRepository(User2::class)->findBy([ 'iduser' => 1]);
-      //  $Usermaile
-        return $this->redirectToRoute('app_orders_index');
+        //$this->sendSms();
+        $this->addFlash('success', ' Thank You For Trusting Us!! a secret code has been sent to your phone !');
+
+        //add a mail logic to send mail to that user
+      //  $User = $entityManager->getRepository(User2::class)->findBy([ 'iduser' => $user->getIduser()]);
+      //  $Usermaile=this->$Use->getMailuser();
+       // $emailService->sendSimpleEmail('louay.sghaier@esprit.tn', 'Test Subject', 'Hello, this is the email body.');
+
+        return $this->redirectToRoute('app_service_shop');
     }
 
    /* #[Route("/handle_order_tracking", name: 'handle_order_tracking', methods: ['POST'])]

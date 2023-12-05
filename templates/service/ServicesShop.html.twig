@@ -144,6 +144,13 @@
                                                 width: 48%; /* Set a width to make buttons fit in the container with a small gap */
                                             }
                                         </style>
+
+                                    {% for flashMessage in app.flashes('success') %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ flashMessage }}
+                                        </div>
+                                    {% endfor %}
+
                                     <div class="row" id="search-results">
                                                         {% for service in services %}
                                                             <div class="col-lg-4  mb-4">
@@ -166,23 +173,29 @@
                                                                 </div>
                                                             </div>
                                                         {% endfor %}
-                                            <script>
-                                                    function addToOrder(serviceId) {
-                                                    // Send an AJAX request to your Symfony controller
-                                                    $.ajax({
-                                                        url: "{{ path('add_to_order') }}",
-                                                        method: "POST",
-                                                        data: { serviceId: serviceId },
-                                                        
-                                                        success: function(response) {
-                                                            alert("Service added to order!");  // You can handle the response as needed
-                                                        },
-                                                        error: function(error) {
-                                                            console.error("Error adding service to order:", error);
-                                                        }
-                                                    });
-                                                }
-                                            </script>
+
+
+                                        <script>
+                                            function addToOrder(serviceId) {
+                                                // Send an AJAX request to your Symfony controller
+                                                $.ajax({
+                                                    url: "{{ path('add_to_order') }}",
+                                                    method: "POST",
+                                                    data: { serviceId: serviceId },
+
+                                                    success: function(response) {
+                                                        location.reload();
+                                                    },
+                                                    error: function(error) {
+                                                        console.error("Error adding service to order:", error);
+                                                    }
+                                                });
+                                            }
+
+
+                                        </script>
+
+
 
                                     </div>
                                 </div>
@@ -224,10 +237,10 @@
                                     </a>
                                         <div class="collapse show" id="sub-men1" data-parent="#list-group-men">
                                             <div class="list-group">
-                                                <a href="#" class="list-group-item list-group-item-action active">Top Rated <small class="text-muted">(50)</small></a>
-                                                <a href="#" class="list-group-item list-group-item-action">Promotion <small class="text-muted">(10)</small></a>
-                                                <a href="#" class="list-group-item list-group-item-action">Low Budget <small class="text-muted">(10)</small></a>
-                                                <a href="#" class="list-group-item list-group-item-action">Max Budget <small class="text-muted">(10)</small></a>
+                                                <a href="{{ path('app_service_shop') }}" class="list-group-item list-group-item-action active">Top Rated <small class="text-muted">(50)</small></a>
+                                                <a href="{{ path('app_service_shop') }}" class="list-group-item list-group-item-action">Promotion <small class="text-muted">(10)</small></a>
+                                                <a href="{{ path('app_service_shop') }}" class="list-group-item list-group-item-action">Low Budget <small class="text-muted">(10)</small></a>
+                                                <a href="{{ path('app_service_shop') }}" class="list-group-item list-group-item-action">Max Budget <small class="text-muted">(10)</small></a>
                                             </div>
                                         </div>
                                     </div>
@@ -242,7 +255,7 @@
                         <h4>Mr Sghaier louay</h4>
                         <ul>
                             <li>Your Current money </li><br>
-                            <p><b>250 dt</b></p>
+                            <p><b class="text-success">"{{ PaidOrders }} dt"</b></p>
 
 
                              <i class="fas fa-tags"></i>
@@ -255,7 +268,7 @@
                             {% if sumOfPaidOrders > 40 %}
                                 <p>Your QR code is ready!</p>
                             {% else %}
-                                <p>Sum of paid orders is not greater than 40.</p>
+                                <p>your order is under 40 dt Buy More to get reduction.</p>
                             {% endif %}
                         </ul>
 

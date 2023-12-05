@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>User Profile</h2>
+
+        <dl>
+            <dt>Nom:</dt>
+            <dd>{{ user.nomuser }}</dd>
+
+            <dt>Prenom:</dt>
+            <dd>{{ user.prenomuser }}</dd>
+
+            <dt>Email:</dt>
+            <dd>{{ user.mailuser }}</dd>
+
+            <dt>Adresse:</dt>
+            <dd>{{ user.adressuser }}</dd>
+
+            <dt>Classe:</dt>
+            <dd>{{ user.classeuser }}</dd>
+
+            <dt>Role:</dt>
+            <dd>{{ user.roleuser }}</dd>
+        </dl>
+
+        <a href="{{ path('app_user_edit', {'id': user.iduser}) }}">Edit</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h1 class="text-center mb-4">Essayez notre chatbot intelligent créé avec l'intelligence artificielle</h1>
+
+                <form action="{{ path('app_chat_index') }}" method="GET" class="mb-4">
+                    <div class="form-group">
+                        <label for="question">Posez votre question :</label>
+                        <div class="input-group">
+                            <input type="text" id="question" name="question" class="form-control" required>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">Envoyer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                {% if answer is defined %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Réponse</h5>
+                            <p class="card-text">{{ answer }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -66,7 +66,7 @@ class Orders
     /**
      * @var \User2
      *
-     * @ORM\ManyToOne(targetEntity="User2")
+     * @ORM\ManyToOne(targetEntity="User2", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="userId", referencedColumnName="iduser")
      * })

@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+{% block title %}Sign Up!{% endblock %}
+
+{% block body %}
+<section class="apply-now" id="apply">
+    <div class="contact-us" id="contact">
+        <div class=" form-control  ">
+            <section class="section register ">
+                {% for danger  in app.flashes('danger') %}
+                    <div class="alert alert-danger">
+                        {{ danger }}
+                    </div>
+                {% endfor %}
+
+                <h2 class="text-black"> Sign Up!</h2>
+                <table >
+
+                    {{ form_start(f, {'attr': {'novalidate': 'novalidate'}}) }}
+                    <div class="align">
+                        <tr>
+                            <div class="form-group">
+                                <label for="inputText" class="col-sm-4 col-form-label">NOM:</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.nomuser,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                                {{ form_errors(f.nomuser, { attr: { class: 'text-danger' }, only: true }) }}
+                            </div>
+                        </tr>
+                        <tr>
+                            <div class="form-group">
+                                <label for="inputText" class="col-sm-4 col-form-label">PRENOM:</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.prenomuser,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                                {{ form_errors(f.prenomuser,{'attr':{'class':'text-danger'}})  }}
+                            </div>
+                        </tr>
+                        <tr>
+                            <div class="form-group">
+                                <label for="inputText" class="col-sm-4 col-form-label">EMAIL:</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.mailuser,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                                {{ form_errors(f.mailuser,{'attr':{'class':'text-danger'}}) }}
+                                {% if app.flashes('danger')|length > 0 %}
+                                    <div class="alert alert-danger">
+                                        {{ app.flashes('danger')[0] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </tr>
+                        <tr>
+                            <div class="form-group">
+                                <label for="inputText" class="col-sm-4 col-form-label">PASSWORD:</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.mdpuser,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                                {{ form_errors(f.mdpuser,{'attr':{'class':'text-danger'}}) }}
+                            </div>
+                        </tr>
+                        <tr>
+                            <div class="form-group">
+                                <label for="inputText" class="col-sm-4 col-form-label">ADRESSE:</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.adressuser,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                                {{ form_errors(f.adressuser,{'attr':{'class':'text-danger'}})  }}
+                            </div>
+                        </tr>
+                        <tr>
+                            <div class="form-group">
+                                <label for="inputText" class="col-sm-4 col-form-label">CLASSE:</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.classeuser,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                                {{ form_errors(f.classeuser,{'attr':{'class':'text-danger'}}) }}
+                            </div>
+                        </tr>
+                        <tr>
+                            <div class="form-group">
+                                <label for="inputText" class="col-sm-4 col-form-label">role:</label>
+                                <div class="col-sm-10">
+                                    {{ form_widget(f.roleuser,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                                {{ form_errors(f.roleuser,{'attr':{'class':'text-danger'}}) }}
+                            </div>
+                        </tr>
+                        {# Si vous avez exclu idUser du mappage, vous pouvez l'ajouter manuellement ici si nécessaire #}
+                        {# <div class="form-group">
+                        {{ form_label(form.idUser) }}
+                        {{ form_row(form.idUser) }}
+                    </div> #}
+
+                        {# Bouton de soumission #}
+                        <tr>
+                            <div class="form-group">
+                                <li data-filter="*"><a href="{{ path('app_template') }}">{{ form_row(f.SignUp) }}</a></li>
+                            </div>
+                        </tr>
+                    </div>
+                </table>
+                {{ form_end(f) }}
+        </div>
+    </div>
+</section>
+{% endblock %}

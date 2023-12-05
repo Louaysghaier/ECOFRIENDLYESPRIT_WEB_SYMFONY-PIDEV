@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <section class="heading-page header-text" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6>Welcome to login page </h6>
+                    <h2>Join Us now </h2>
+                    <div class="btn bg-danger" style="color: white; text-decoration-color: white;">Sign Up here </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<section class="upcoming-meetings" >
+    <section class="section register">
+        {% for message in app.flashes('message') %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </section>
+
+    <section class="section register">
+        {% for danger in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ danger }}
+            </div>
+        {% endfor %}
+    </section>
+
+    <div class="cart-box-main d-flex align-items-center justify-content-center" style="padding-top: 50px;  ">
+        <div class="   form-control  container">
+            {{ form_start(f, {'attr': {'novalidate': 'novalidate', 'class': 'form-small'}}) }}
+
+            <div class="mb-3 text-center">
+                <h3 class="text-black">Sign In</h3>
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(f.mailuser, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(f.mailuser) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_row(f.mdpuser, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(f.mdpuser) }}
+            </div>
+
+            <div class="mb-4 d-flex align-items-center justify-content-between">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <a href="{{ path('forgot') }}">Forgot Password</a>
+            </div>
+
+            {{ form_end(f) }}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -8,6 +8,7 @@ parameters:
     paypal.client_id: 'AT_Dry_WQPkY-zbrpkuHgSLO2FUTwcmk_YqqJ2oUb7DLBGTJ2ICukxoxBXA71g4uLC0bIZACPh4zzMSa'
     paypal.client_secret: 'EEpSAsZqW3WzGYe-jZw89ObVi4jZ9yV3rEdDm7zccd1qGxg4V33z0OExvq8ohCnk9cImiqcNg0J7njhZ'
     qrcode: '%kernel.project_dir%/public/uploads/qrcode'
+    gmail_app_password: '%env(GMAIL_APP_PASSWORD)%'
 services:
 
     App\Service\QrCodeService:
@@ -15,6 +16,7 @@ services:
     App\Service\CurrentUserService:
         arguments:
             $security: '@security.helper'
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

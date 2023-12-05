@@ -1,0 +1,22 @@
+
+
+
+{% block content %}
+    {% if users is not empty %}
+        <h1>Search Results</h1>
+
+        
+        {% set user = users[0] %}
+
+       
+            <p>prenom: {{ user.prenomuser }}</p>
+              <p>email: {{ user.mailuser }}</p>
+              <p>adresse: {{ user.adressuser }}</p>
+              <p>classe: {{ user.classeuser }}</p>
+              <p>role: {{ user.roleuser }}</p>
+
+
+    {% else %}
+        <p>No users found.</p>
+    {% endif %}
+{% endblock %}

@@ -42,16 +42,29 @@ class OrdersRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function calculateSumOfPaidOrders(): float
+    public function calculateSumOfPaidOrders(int $userId): float
     {
         return (float) $this->createQueryBuilder('o')
             ->select('SUM(o.priceorder)') // Assuming there is a property named totalAmount
             ->where('o.status = :status')
-            ->setParameter('status', 'wanted') 
+            ->andWhere('o.userid = :userId')
+            ->setParameter('status', 'wanted')
+            ->setParameter('userId', $userId)
             ->getQuery()
             ->getSingleScalarResult();
     }
-    public function countOrdersForUser($userId)
+    public function PaidOrders(int $userId): float
+    {
+        return (float) $this->createQueryBuilder('o')
+            ->select('SUM(o.priceorder)') // Assuming there is a property named totalAmount
+            ->where('o.status = :status')
+            ->andWhere('o.userid = :userId')
+            ->setParameter('status', 'payed')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function countOrdersForUser(int $userId)
     {
         return $this->createQueryBuilder('o')
             ->select('COUNT(o.orderid)')

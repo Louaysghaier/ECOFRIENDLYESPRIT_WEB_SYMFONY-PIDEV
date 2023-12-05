@@ -14,11 +14,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Endroid\QrCodeBundle\Response\QrCodeResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 #[Route('/service')]
 class ServiceController extends AbstractController
 {
-
+    private $requestStack;
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder,RequestStack $requestStack)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+        $this->requestStack = $requestStack;
+    }
     #[Route('/', name: 'app_service_index', methods: ['GET'])]
     public function index(ServiceRepository $serviceRepository): Response
     {
@@ -123,31 +130,39 @@ class ServiceController extends AbstractController
 
     #[Route('/shop', name: 'app_service_shop', methods: ['GET', 'POST'])]
     public function homeshop(        OrdersRepository $ordersRepository,
-                                     Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders();
-
+                                     Request $request,
+                                     EntityManagerInterface $entityManager): Response
+    {   $session = $this->requestStack->getSession();
+        $user = $session->get('User2') ;
+        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser());
+        $PaidOrd = $ordersRepository->PaidOrders($user->getIduser());
+        $PaidOrders=250-$PaidOrd;
         // Fetch services from the database
         $services = $this->getDoctrine()->getRepository(Service::class)->findAll();
         $qrCode=0;
         return $this->render('service/ServicesShop.html.twig', [
             'qrCode' => $qrCode,
-
+            'PaidOrders' => $PaidOrders,
             'services' => $services,
             'sumOfPaidOrders' => $sumOfPaidOrders,
         ]);
     }
 
     #[Route("/search", name: "search", methods: ['GET'])]
-    public function search(Request $request)
-    {
-        $searchTerm = $request->query->get('search_term');
+    public function search(Request $request, OrdersRepository $ordersRepository)
+    {  $session = $this->requestStack->getSession();
+        $user = $session->get('User2') ;
 
+        $PaidOrd = $ordersRepository->PaidOrders($user->getIduser());
+        $PaidOrders=250-$PaidOrd;
+        $searchTerm = $request->query->get('search_term');
+        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders($user->getIduser());
         // Call the searchByName method from your repository or service
         $services = $this->getDoctrine()->getRepository(Service::class)->searchByName($searchTerm);
         return $this->render('service/ServicesShop.html.twig', [
             'services' => $services,
-
+            'sumOfPaidOrders' => $sumOfPaidOrders,
+            'PaidOrders' => $PaidOrders,
         ]);
 
     }
@@ -159,17 +174,22 @@ class ServiceController extends AbstractController
         ServiceRepository $serviceRepository,
         QrcodeService $qrcodeService
     ): Response {
+        $session = $this->requestStack->getSession();
+        $user = $session->get('User2') ;
         $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders();
-
+        $PaidOrd = $ordersRepository->PaidOrders($user->getIduser());
+        $PaidOrders=250-$PaidOrd;
         if ($sumOfPaidOrders > 40) {
             // Generate QR code content (customize this based on your requirements)
-            $qrCodeContent = 'ecofriendlyesprit';
+            $qrCodeContent = 'ecoTN11';
 
             // Generate QR code using the QrCodeService
             $qrCode = $qrcodeService->qrCode($qrCodeContent);
 
+
             // Pass the QR code to the template or use it as needed
             return $this->render('service/ServicesShop.html.twig', [
+                'PaidOrders' => 250-$PaidOrd,
                 'qrCode' => $qrCode,
                 'sumOfPaidOrders' => $sumOfPaidOrders,
                 'services' => $serviceRepository->findAll(),
@@ -180,6 +200,9 @@ class ServiceController extends AbstractController
         return $this->render('service/ServicesShop.html.twig', [
             'sumOfPaidOrders' => $sumOfPaidOrders,
             'services' => $serviceRepository->findAll(),
+            'PaidOrders' => 250-$PaidOrd,
+
         ]);
     }
+
 }
