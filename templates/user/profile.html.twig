@@ -1,0 +1,9 @@
+{% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('admin_block_user', {'id': user.id}) }}">
+        {% if user.isBlocked %}
+            Unblock User
+        {% else %}
+            Block User
+        {% endif %}
+    </a>
+{% endif %}

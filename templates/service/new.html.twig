@@ -1,0 +1,82 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New Service{% endblock %}
+
+{% block body %}
+    <section class="form-container" id="contact">
+        <link rel="stylesheet" href="{{ asset('css/ServiceForm.css') }}">
+
+        <style>
+            /* Add your custom styles here */
+            .form-container {
+                background-color: white;
+                padding: 20px; /* Adjust padding as needed */
+            }
+
+            .form-group {
+                margin-bottom: 20px; /* Adjust margin as needed */
+            }
+
+            /* Make the form inputs larger */
+            input[type="text"],
+            input[type="number"],
+            textarea {
+                width: 100%;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+
+            button {
+                padding: 10px 20px;
+            }
+
+        </style>
+
+        <h1 class="text-black bg-danger" >Create new Service :</h1>
+
+        <section class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+
+                    <div class="form-container">
+                        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                        <div class="form-group">
+                            {{ form_label(form.servicename) }}
+                            {{ form_widget(form.servicename) }}
+                            <div class="error-message">{{ form_errors(form.servicename) }}</div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.price) }}
+                            {{ form_widget(form.price) }}
+                            <div class="error-message">{{ form_errors(form.price) }}</div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.description) }}
+                            {{ form_widget(form.description) }}
+                            <div class="error-message">{{ form_errors(form.description) }}</div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.img) }}
+                            {{ form_widget(form.img) }}
+                            {% if form.img.vars.value %}
+                                <img src="{{ asset(form.img.vars.value) }}" alt="Image Preview" style="max-width: 100%; height: auto;">
+                            {% endif %}
+                            <div class="error-message">{{ form_errors(form.img) }}</div>
+                        </div>
+
+                        <button class="btn bg-danger">{{ button_label|default('Save') }}</button>
+                        {{ form_end(form) }}
+
+                        <a href="{{ path('app_service_index') }}" >back to list</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </section>
+{% endblock %}

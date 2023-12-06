@@ -1,0 +1,101 @@
+.form-container {
+    width: 50%; /* Ajustez la largeur du conteneur selon vos besoins */
+    margin: 0 auto; /* Centre le conteneur horizontalement */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style for form groups (each field and its associated label and errors) */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Style for labels */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Style for form fields */
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+/* Style for error messages */
+.error-message {
+    color: red;
+    font-size: 14px;
+}
+
+/* Style for the submit button */
+.btn {
+    background-color: #831f2b;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+
+}
+/* public/css/styles.css */
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+
+    /* Add box shadow for a lifted effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}

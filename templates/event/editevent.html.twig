@@ -1,0 +1,93 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Ajouter un événement{% endblock %}
+
+{% block headerback %}
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+        <!-- Navbar Start -->
+        <div class="content">
+            <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <form class="d-none d-md-flex ms-4">
+                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+                </form>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <!-- ... (le reste du contenu de la barre de navigation) ... -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- Navbar End -->
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="form-container">
+            <h1 class="mb-4">Ajouter un événement</h1>
+
+            {{ form_start(form) }}
+
+            <div class="form-group">
+                {{ form_label(form.nomevent) }}
+                {{ form_widget(form.nomevent, {'attr': {'class': 'input-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.lieuevent) }}
+                {{ form_widget(form.lieuevent, {'attr': {'class': 'input-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.datedebutevent) }}
+                {{ form_widget(form.datedebutevent, {'attr': {'class': 'input-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.duree) }}
+                {{ form_widget(form.duree, {'attr': {'class': 'input-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.nbmaxparticipant) }}
+                {{ form_widget(form.nbmaxparticipant, {'attr': {'class': 'input-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.prixticket) }}
+                {{ form_widget(form.prixticket, {'attr': {'class': 'input-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.typeevent) }}
+                {{ form_widget(form.typeevent, {'attr': {'class': 'input-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.descriptionevent) }}
+                {{ form_widget(form.descriptionevent, {'attr': {'class': 'input-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(form.save, {'attr': {'class': 'submit-btn'}}) }}
+            </div>
+
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+{% endblock %}

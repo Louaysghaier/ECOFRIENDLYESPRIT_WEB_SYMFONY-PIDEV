@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to Your Project!{% endblock %}
+
+{% block body %}
+    <style>
+        /* Ajoutez des styles supplémentaires pour votre projet ici */
+
+        /* Conteneur principal */
+        .main-container {
+            margin-top: 20px;
+        }
+
+        /* Conteneur de recherche, cart et boutons */
+        .search-cart-buttons-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 20px;
+        }
+
+        /* Formulaire de recherche */
+        .search-form {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        /* Carte d'événement */
+        .event-card {
+            height: 250px; /* Hauteur fixe */
+            width: 100%;
+            max-width: 18rem;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        /* Image de l'événement */
+        .event-card img {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            max-height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        /* Contenu de la carte */
+        .event-card .card-body {
+            padding: 1rem;
+        }
+
+        /* Boutons Maps et Calendrier */
+        .buttons-container a {
+            margin-right: 10px;
+            display: inline-block;
+            width: 150px; /* Ajustez la largeur selon vos préférences */
+            text-align: center;
+        }
+
+        /* Titre de l'événement */
+        .event-card .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: black; /* Ajoutez cette ligne pour définir la couleur du texte en noir */
+        }
+
+        /* Effet de survol sur la carte */
+        .event-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Bouton "Show" */
+        .event-card .show-button a {
+            width: 100%;
+        }
+
+        /* Panier */
+        .cart-container {
+            float: right;
+        }
+
+        /* Boutons Maps et Calendrier */
+        .buttons-container a {
+            margin-right: 10px;
+        }
+        
+    </style>
+
+    <section class="heading-page header-text" id="top">
+        <!-- ... Votre code existant ... -->
+    </section>
+
+    <section class="meetings-page" id="meetings">
+        <div class="container main-container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="search-cart-buttons-container">
+                        <div class="search-form">
+                            <form action="{{ path('searchbyname') }}" method="get">
+                                <input type="text" name="query" placeholder="Search" class="form-control mb-3">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </form>
+                        </div>
+                        <div class="cart-container">
+                            <a href="{{ path('Monpanier') }}" class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i> Panier
+                            </a>
+                        </div>
+                        <div class="buttons-container">
+                          <a href="{{ path('calendar') }}" class="btn btn-secondary">
+                          <i class="far fa-calendar-alt"></i> Calendrier
+                          </a>
+
+                            <a href="{{ path('directions') }}" class="btn btn-secondary">
+        <i class="fas fa-map-marker-alt"></i> Maps
+    </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for event in events %}
+                            <div class="col-lg-4">
+                                <div class="card event-card">
+                                    <img src="{{ asset("uploads/eventim/" ~ event.getImage()) }}" alt="{{ event.getNomevent() }}" class="card-img-top">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ event.getNomevent() }}</h5>
+                                        <div class="show-button">
+                                            <a href="{{ path('showDetails', {'i': event.idEvent}) }}" class="btn btn-primary">Show</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

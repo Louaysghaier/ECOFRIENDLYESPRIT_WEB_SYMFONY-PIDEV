@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Participation avec succès{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            background: url("path/to/your/background/image.jpg") center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        .meetings-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .content-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            width: 500px; /* Increase the width as needed */
+            max-width: 100%; /* Ensure it doesn't exceed 100% of the parent container */
+            text-align: center;
+        }
+
+        .qr-code-image {
+            max-width: 50%; /* Decrease the width as needed */
+            height: auto;
+            max-height: 200px; /* Adjust the height as needed */
+            display: block;
+            margin: auto;
+            margin-top: 20px;
+        }
+    </style>
+
+    <section class="meetings-page" id="meetings">
+        <div class="content-container">
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Succès !</h4>
+                <p>Votre participation a été ajoutée avec succès.</p>
+                <hr>
+                <p class="mb-0">Continuez à explorer notre site pour trouver d'autres événements passionnants.</p>
+            </div>
+
+            <a href="{{ path('affichecard') }}" class="btn btn-primary mt-3">Retour à l'accueil</a>
+
+            <p class="mt-4">Scannez le code QR ci-dessous pour accéder à votre participation :</p>
+            <img src="{{ asset(participation.codeQR) }}" alt="Code QR de participation" class="qr-code-image" />
+        </div>
+    </section>
+{% endblock %}

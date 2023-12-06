@@ -1,0 +1,24 @@
+
+/* styles.css */
+
+.form-container {
+    width: 50%; /* Ajustez la largeur du conteneur selon vos besoins */
+    margin: 0 auto; /* Centre le conteneur horizontalement */
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group {
+    margin-bottom: 15px; /* Ajoute un espace entre chaque groupe de champ */
+}
+
+.align {
+    margin-top:80px;
+    padding-top:80px;
+    
+}
+/* Personnalisez davantage le style des champs si nécessaire */
+
+.color {
+   background-color: whitesmoke
+}

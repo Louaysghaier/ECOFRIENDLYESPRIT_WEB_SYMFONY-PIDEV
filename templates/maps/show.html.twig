@@ -1,0 +1,79 @@
+{# templates/map/show.html.twig #}
+
+{# templates/maps/show.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map</title>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG05iB0DYOaK3cJSUUvwxSNJ7TE4TLw9A&callback=initMap" async defer></script></head>
+<body>
+    <div id="map" style="height: 400px;"></div>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -34.397, lng: 150.644},
+                zoom: 8,
+                styles: [
+                    // Ajoutez votre style personnalisé ici
+                ]
+            });
+
+            // Ajouter un marqueur pour l'université
+            var universityCoordinates = { lat: 36.853685300118, lng: 10.207445443108 };
+            var universityMarker = new google.maps.Marker({
+                position: universityCoordinates,
+                map: map,
+                title: 'Votre Université',
+                icon: 'URL_VERS_VOTRE_ICONE',
+            });
+
+            // Ajouter une info-bulle détaillée
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<h3>Votre Université</h3><p>Informations détaillées ici.</p>',
+            });
+
+            universityMarker.addListener('click', function() {
+                infoWindow.open(map, universityMarker);
+            });
+
+            // Ajouter une couche de superposition météo
+            var weatherLayer = new google.maps.weather.WeatherLayer({
+                temperatureUnits: google.maps.weather.TemperatureUnit.CELSIUS,
+            });
+            weatherLayer.setMap(map);
+
+            // Intégrer Street View
+            var streetViewService = new google.maps.StreetViewService();
+            var streetViewPanorama = new google.maps.StreetViewPanorama(document.getElementById('map'));
+            streetViewService.getPanorama({ location: universityCoordinates, radius: 50 }, function(data, status) {
+                if (status === 'OK') {
+                    streetViewPanorama.setPano(data.location.pano);
+                    streetViewPanorama.setPov({ heading: 270, pitch: 0 });
+                    streetViewPanorama.setVisible(true);
+                } else {
+                    console.error('Street View non disponible pour cette localisation.');
+                }
+            });
+
+            // Ajouter des itinéraires et des directions
+            var directionsService = new google.maps.DirectionsService();
+            var directionsDisplay = new google.maps.DirectionsRenderer();
+            directionsDisplay.setMap(map);
+
+            var request = {
+                origin: 'Adresse de départ',
+                destination: universityCoordinates,
+                travelMode: google.maps.TravelMode.DRIVING,
+            };
+
+            directionsService.route(request, function(response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

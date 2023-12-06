@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenement complet{% endblock %}
+
+{% block body %}
+<section class="meetings-page" id="meetings">
+        <div class="container main-container">
+    <div class="container mt-5">
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Attention !</h4>
+            <p>Malheureusement, cet événement est complet.</p>
+            <hr>
+            <p class="mb-0">Continuez à explorer notre site pour trouver d'autres événements passionnants.</p>
+            <style>
+                .alert-warning {
+                    margin-top: 80px; /* ou padding-top: 50px; */
+                    z-index: 1000;
+                    position: relative; /* ou position: absolute; */
+                    top: 50px; /* ajustez la valeur selon vos besoins */
+                }
+                .btn-primary {
+                    margin-top: 40px; /* ou padding-top: 20px; ajustez la valeur selon vos besoins */
+                }
+            </style>
+        </div>
+        
+        <a href="{{ path('affichecard') }}" class="btn btn-primary">Retour à l'accueil</a>
+    </div>
+        </div>
+
+    </section>
+{% endblock %}
+

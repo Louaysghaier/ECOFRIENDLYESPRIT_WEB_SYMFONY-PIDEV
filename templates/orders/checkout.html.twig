@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}checkout{% endblock %}
+
+{% block body %}
+  <!-- css  -->
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/responsive.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/style.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/bootstrap.min.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/custom.css') }}">
+
+        <script src="https://www.paypal.com/sdk/js?client-id=AbRKFLgtSCyAKMso_haSpB4BYQBuoV8XdYIWpdy-3qZoXu1LEWXRgNTGNv73ed56tcSdYQ5wTW56uGWB"></script>
+
+
+    <section class="heading-page header-text" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6>Welcome to our Payment Part</h6>
+                    <h2>Check Your Info</h2>
+                    <div class="btn bg-danger" style="color: white; text-decoration-color: white;">Ask our chatbot</div>
+                </div>
+            </div>
+        </div>
+    </section>
+ <!-- Start Cart  -->
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row new-account-login">
+                <div class="col-sm-6 col-lg-6 mb-3">
+                    <div class="title-left">
+                        <h3>Account Login</h3>
+                    </div>
+                    <h5><a data-toggle="collapse" href="#formLogin" role="button" aria-expanded="false">Click here to Login</a></h5>
+
+                </div>
+                <div class="col-sm-6 col-lg-6 mb-3">
+                    <div class="title-left">
+                        <h3>Create New Account</h3>
+                    </div>
+                    <h5><a data-toggle="collapse" href="#formRegister" role="button" aria-expanded="false">Click here to Register</a></h5>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-lg-6 mb-3">
+                    <div class="checkout-address">
+                        <div class="title-left">
+                            <h3>Billing address</h3>
+                        </div>
+                        <form class="needs-validation" novalidate>
+
+                            <hr class="mb-4">
+                            <div id="paypal-button-container" class="title "> <span><b>Payment</b></span> </div>
+                            <div class="d-block my-3">
+                                <div class="custom-control custom-radio">
+                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                                    <label class="custom-control-label" for="credit">Credit card</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="debit">Debit card</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="paypal">Paypal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="cc-name">Name on card</label>
+                                    <input type="text" class="form-control" id="cc-name" placeholder="" required> <small class="text-muted">Full name as displayed on card</small>
+                                    <div class="invalid-feedback"> Name on card is required </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="cc-number">Credit card number</label>
+                                    <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                                    <div class="invalid-feedback"> Credit card number is required </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="cc-expiration">Expiration</label>
+                                    <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                                    <div class="invalid-feedback"> Expiration date required </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="cc-expiration">CVV</label>
+                                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                                    <div class="invalid-feedback"> Security code required </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="payment-icon">
+                                        <ul>
+                                            <li><img class="img-fluid" src="images/payment-icon/1.png" alt=""></li>
+                                            <li><img class="img-fluid" src="images/payment-icon/2.png" alt=""></li>
+                                            <li><img class="img-fluid" src="images/payment-icon/3.png" alt=""></li>
+                                            <li><img class="img-fluid" src="images/payment-icon/5.png" alt=""></li>
+                                            <li><img class="img-fluid" src="images/payment-icon/7.png" alt=""></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mb-1">
+                        </form>
+                        <!-- Include PayPal SDK -->
+                        <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID"></script>
+
+                        <!-- Your JavaScript code to initialize PayPal Buttons -->
+                        <script>
+                            paypal.Buttons({
+                                createOrder: function(data, actions) {
+                                    // This function sets up the details of the transaction, including the amount and line item details.
+                                    return actions.order.create({
+                                        purchase_units: [{
+                                            amount: {
+                                                value: '{{ sumOfPaidOrders }}' // Set the total amount dynamically
+                                            }
+                                        }]
+                                    });
+                                },
+                                onApprove: function(data, actions) {
+                                    // This function captures the funds from the transaction.
+                                    return actions.order.capture().then(function(details) {
+                                        // Call your Symfony endpoint to handle the successful payment
+                                        window.location.href = '{{ path('payment_success') }}?paymentId=' + data.orderID + '&PayerID=' + data.payerID;
+                                    });
+                                },
+                                onError: function(err) {
+                                    // Handle errors or show an error message to the user
+                                    console.error(err);
+                                }
+                            }).render('#paypal-button-container');
+                        </script>
+
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-6 mb-3">
+                    <div class="row">
+                        
+                       
+                        <div class="col-md-12 col-lg-12">
+                            <div class="order-box">
+                                <div class="title-left">
+                                    <h3>Your order is updated </h3>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="font-weight-bold">Order </div>
+                                    <div class="ml-auto font-weight-bold">Info</div>
+                                </div>
+                                <hr class="my-1">
+                                <div class="d-flex">
+                                    <h4>Numbers</h4>
+                                    <div class="ml-auto font-weight-bold"> {{orderCount}} </div>
+                                </div> 
+                                <div class="d-flex">
+                                    <h4>Discount</h4>
+                                    <div class="ml-auto font-weight-bold"> $ {{ couponPrice }}</div>
+                                </div>
+                                <hr class="my-1">
+                                <div class="d-flex">
+                                    <h4>Coupon Discount</h4>
+                                    <div class="ml-auto font-weight-bold"> $ {{ couponPrice }}</div>
+                                </div>
+                                <div class="d-flex">
+                                    <h4>Tax</h4>
+                                    <div class="ml-auto font-weight-bold"> $ 2 </div>
+                                </div>
+                                <div class="d-flex">
+                                    <h4>Shipping Cost</h4>
+                                    <div class="ml-auto font-weight-bold"> Free </div>
+                                </div>
+                                <hr>
+                                <div class="d-flex gr-total">
+                                    <h5>Grand Total</h5>
+                                    <div class="ml-auto h5"> $ {{sumOfPaidOrders}}</div>
+                                </div>
+                                <hr> </div>
+                        </div>
+                        <div class="col-12 d-flex shopping-box">
+                            <a class="ml-auto btn hvr-hover"  href="{{ path('update_orders_status_route') }}">Pay!</a>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

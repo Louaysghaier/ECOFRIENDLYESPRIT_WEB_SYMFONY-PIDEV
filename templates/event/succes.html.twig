@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Événement ajouté au panier{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Succès !</h4>
+            <p>L'événement a été ajouté à votre panier avec succès.</p>
+            <hr>
+            <p class="mb-0">Continuez à explorer notre site pour trouver d'autres événements passionnants.</p>
+            <style>
+.alert-success {
+    margin-top: 80px; /* ou padding-top: 50px; */
+}
+.alert-success {
+    z-index: 1000;
+}
+.alert-success {
+    position: relative; /* ou position: absolute; */
+    top: 50px; /* ajustez la valeur selon vos besoins */
+}
+.btn-primary {
+    margin-top: 40px; /* ou padding-top: 20px; ajustez la valeur selon vos besoins */
+}
+</style>
+
+        </div>
+        <a href="{{ path('affichecard') }}" class="btn btn-primary">Retour à l'accueil</a>
+    </div>
+{% endblock %}
+

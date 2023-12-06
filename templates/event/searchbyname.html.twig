@@ -1,0 +1,64 @@
+{# templates/votre_template_de_recherche.html.twig #}
+
+{% extends 'back.html.twig' %}
+
+{% block title %}
+    <div class="text-center">Recherche d'événements par nom</div>
+{% endblock %}
+
+{% block headerback %}
+    {# Ne rien inclure ici pour ne pas afficher la sidebar #}
+{% endblock %}
+
+{% block footerback %}
+    {# Ne rien inclure ici pour ne pas afficher le footer #}
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Recherche d'événements par nom</h1>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        
+        {{ form_end(form) }}
+
+        {% block search_content %}
+            {% if event %}
+                <h2>Résultats de la recherche :</h2>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Titre</th>
+                            <th>Lieu</th>
+                             <th>Lieu</th>
+                              <th>Lieu</th>
+                               <th>Lieu</th>
+                            <!-- Ajoutez d'autres colonnes selon votre modèle -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in event %}
+                            <tr>
+                                <td>{{ event.getNomevent() }}</td>
+                                <td>{{ event.getLieuevent() }}</td>
+                                <td>{{ event.getDatedebutevent()|date('Y-m-d H:i:s') }}</td>
+                            <td>{{ event.getDuree() }}</td>
+                            <td>{{ event.getNbmaxparticipant() }}</td>
+                            <td>{{ event.getPrixticket() }}</td>
+                            <td>{{ event.getTypeevent() }}</td>
+                            <td>{{ event.getDescriptionevent() }}</td>
+                          
+                            <td><a href="{{path('supprimevent',{'i':event.idEvent})}}">suuprimer</a></td>
+                            <td><a href="{{path('editevent',{'i':event.idEvent})}}">Edite</a></td>
+                                <!-- Ajoutez d'autres colonnes selon votre modèle -->
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {#{% else %}
+                <p>Aucun résultat trouvé pour la recherche "{{ form.vars.value.nomevent }}"</p> #}
+            {% endif %}
+        {% endblock %}
+    </div>
+{% endblock %}

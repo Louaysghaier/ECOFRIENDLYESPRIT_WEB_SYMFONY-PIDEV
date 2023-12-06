@@ -1,0 +1,82 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}
+    <div class="text-center">Liste des événements</div>
+{% endblock %}
+
+{% block headerback %}
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+        <!-- Navbar Start -->
+        <div class="content">
+            <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <form class="d-none d-md-flex ms-4">
+                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+                </form>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <!-- ... (le reste du contenu de la barre de navigation) ... -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- Navbar End -->
+    </div>
+{% endblock %}
+
+
+ 
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Liste des Participations</h1>
+
+        {% if participation is not empty %}
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                    <th>ID</th>
+                    <th>Code QR</th>
+                    <th>Date de Participation</th>
+                    <th>Event Name</th>
+                    <th>Username</th>
+
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for participation in participation %}
+                        <tr>
+                            <td>{{ participation.getId() }}</td>
+                            <td>{{ participation.getCodeQR() }}</td>
+                           <td>{{ participation.dateParticipation ? participation.dateParticipation|date('Y-m-d H:i:s') : 'Non spécifié' }}</td>
+                          <td>{{ participation.getEvent() ? participation.getEvent().getNomevent() : 'Non spécifié' }}</td>
+                          <td>{{ participation.getUser2() ? participation.getUser2().getNomuser() : 'Non spécifié' }}</td>
+                         <td><a href="{{path('supprimeparticipation',{'i':participation.id})}}">suuprimer</a></td>
+                            
+                           
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucune participation disponible pour le moment.</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+

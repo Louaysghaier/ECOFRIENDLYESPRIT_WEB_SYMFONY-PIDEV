@@ -1,0 +1,31 @@
+{# templates/user_statistics.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Participation Statistics</title>
+    <!-- Incluez vos styles CSS ou d'autres dépendances ici -->
+</head>
+<body>
+    <h1>User Participation Statistics</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Total Participations</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for userStats in userParticipationCounts %}
+                <tr>
+                    <td>{{ userStats.nomuser }}</td>
+                    <td>{{ userStats.totalParticipations }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Incluez vos scripts JavaScript ou d'autres dépendances ici -->
+</body>
+</html>

@@ -1,0 +1,65 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Welcome  User!{% endblock %}
+{% block body %}
+<!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    {#<div class="col-sm-12 col-xl-6">#}
+                        <div class="col-12">
+                            <div class="bg-secondary rounded h-100 p-4">
+                                <h6 class="mb-4">Responsive Table</h6>
+                                <div class="table-responsive">
+                                    <table class="table" align="center">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">nom</th>
+                                                <th scope="col">prenom</th>
+                                                <th scope="col">mail</th>
+                                                <th scope="col">adresse</th>
+                                                <th scope="col">classe</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                             {% for user in b %}
+                                            <tr>
+                                                <td>{{ user.nomuser}}</td>
+                                                <td>{{ user.prenomuser }}</td>
+                                                <td>{{ user.mailuser}}</td>
+                                                <td>{{ user.adressuser }}</td>
+                                                <td>{{ user.classeuser}}</td>                               
+                                                <td>
+                                                <a class="btn btn-danger" href="{{ path('admin_block_user',{'id':user.iduser}) }}">
+                                                
+                                     {% if user.isBlocked %}
+                                         Unblock User
+                                         {% else %}
+                                             Block User
+                                                 {% endif %}
+                                     </a>
+                                                </td>
+                                                    </td>
+                                                <a href="{{ path('tirerusers') }}"> t/ </a>
+       </td>
+
+                                                </tr>
+                                            {% endfor %}  
+                                        </tbody>
+                                                                                  <form action="{{ path('searchuser') }}" method="post">
+            <input type="text" name="nomuser" placeholder="Search">
+        <button type="submit">Search</button>
+    </form>
+</div>
+</form>
+      <a href="{{ path('tirerusers') }}">tirer</a>
+      </form>
+                                    </table>
+                                    
+                                </div>
+                            </div>
+                       
+                    </div>
+                </div>
+            </div>
+          
+{% endblock %}

@@ -1,0 +1,251 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Orders{% endblock %}
+
+{% block body %}
+
+    <!-- css  -->
+    <link rel="stylesheet" href="{{ asset('css/shopcss/css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shopcss/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shopcss/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shopcss/css/custom.css') }}">
+
+
+    <section class="heading-page header-text" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6>Welcome to Your Cart </h6>
+                    <h2>Check & Pay </h2>
+                    <div class="btn bg-danger" style="color: white; text-decoration-color: white;">Ask our chatbot</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+
+
+
+                            <h1>Orders History </h1>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+
+                                    <th>NumOrder</th>
+                                    <th>Pickupdatetime</th>
+                                    <th>Phonenumber</th>
+                                    <th>Priceorder</th>
+                                    <th>actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for order in orders %}
+                                    <tr>
+                                        <td>{{ order.numOrder }}</td>
+                                        <td>{{ order.pickupdatetime ? order.pickupdatetime|date('Y-m-d H:i:s') : '' }}</td>
+
+                                        <td>{{ order.phonenumber }}</td>
+                                        <td>{{ order.priceorder }}</td>
+                                        <td>
+                                            {{ include('orders/_delete_form.html.twig') }}
+
+                                            <!-- <a href="{{ path('app_orders_edit', {'orderid': order.orderid}) }}">edit</a> -->
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7">no records found</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <a  class="  bg-danger text-white" href="{{ path('app_service_shop') }}">
+                                <span style="font-size: 20px;">&larr;</span> Go Back To The Shop
+                            </a>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5 ">
+                <div class="col-lg-6 col-sm-6">
+                    <div class="coupon-box">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control shadow-lg" id="coupon-code-input" placeholder="Enter your coupon code" aria-label="Coupon code" type="text">
+                            <div class="input-group-append">
+                                <button id="apply-coupon-btn" class="btn btn-theme shadow-lg" type="button">Apply Coupon</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add this script to your HTML file -->
+                <script>
+                    $(document).ready(function () {
+                        // Add an event listener to the "Apply Coupon" button
+                        $('#apply-coupon-btn').on('click', function () {
+                            // Get the value from the coupon code input
+                            var couponCode = $('#coupon-code-input').val();
+
+                            // Make an AJAX request to your Symfony controller
+                            $.ajax({
+                                url: "{{ path('app_update_order_summary') }}",
+                                method: "GET",
+                                data: { couponCode: couponCode },
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                success: function (response) {
+                                    // Replace the content with the updated HTML
+                                    $('#order-summary-container').html(response.html);
+                                    console.log("AJAX Response:", response);
+                                    // Check if there were updates
+                                    var checkoutUrl = "{{ path('app_orders_checkout_updated', {'updated': 'true'}) }}";
+                                    var normalCheckoutUrl = "{{ path('app_orders_checkout_normal') }}";
+
+                                    // Use the updated flag to determine the checkout URL
+                                    var finalCheckoutUrl = response.updated ? checkoutUrl : normalCheckoutUrl;
+
+                                    // Update the href attribute of the checkout button
+                                    $('#checkout-btn').attr('href', finalCheckoutUrl);
+                                },
+                                error: function (error) {
+                                    console.error("Error applying coupon:", error);
+                                }
+                            });
+                        });
+                    });
+                </script>
+
+                <div class="col-lg-6 col-sm-6 ">
+                    <div class="update-box shadow-lg">
+                        <input  value="update cart " type="submit">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 ">
+                <div class="update-box ">
+                    <button href="{{ path('handle_order_tracking') }}" id="openPopup" class="btn btn-primary">Track Your Order</button>
+                </div>
+            </div>
+
+            {# Popup Form #}
+            <div id="orderTrackingPopup" class="popup" style="display: none;">
+                <form  class="small-form">
+                    <div class="form-group">
+                        <label for="numOrder">NumOrder:</label>
+                        <input type="text" id="numOrder" name="numOrder" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="secretCode">Secret Code:</label>
+                        <input type="text" id="secretCode" name="secretCode" class="form-control" required>
+                    </div>
+                    <button href="{{ path('handle_order_tracking') }}" type="submit" class="btn btn-primary" >Submit</button>
+                </form>
+
+            </div>
+            <style>
+                /* Add your custom styles here */
+                .popup {
+                    display: none;
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: #fff;
+                    padding: 20px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                    z-index: 1000;
+                }
+            </style>
+            <!-- Popup for displaying info -->
+
+            <div id="infoPopup" class="popup">
+
+                <p class="text-danger">{{ info }}</p>
+                <button id="closePopup">Close</button>
+            </div>
+
+            <script>
+                // Show the popup when the page loads
+                $(document).ready(function() {
+                    $("#infoPopup").fadeIn();
+                });
+
+                // Close the popup when the "Close" button is clicked
+                $("#closePopup").click(function() {
+                    $("#infoPopup").fadeOut();
+                });
+            </script>
+            <style> .small-form {
+                    max-width: 300px; /* Adjust the width as needed */
+                    /* Center the form on the page */
+                }</style>
+            {# Your existing scripts and styles #}
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+            <script>
+                // jQuery script for handling the pop-up
+                $(document).ready(function() {
+                    $("#openPopup").click(function() {
+                        $("#orderTrackingPopup").fadeIn();
+                    });
+
+                    // Close the pop-up when clicking outside the form
+                    $(document).mouseup(function(e) {
+                        var container = $("#orderTrackingPopup");
+                        if (!container.is(e.target) && container.has(e.target).length === 0) {
+                            container.fadeOut();
+                        }
+                    });
+                });
+            </script>
+            <div class="row my-5" id="order-summary-container">
+                <div class="col-lg-8 col-sm-12"></div>
+                <div class="col-lg-4 col-sm-12">
+                    <div class="order-box shadow-lg">
+                        <h3>Order summary</h3>
+                        <div class="d-flex">
+                            <h4>Numbers</h4>
+                            <div class="ml-auto font-weight-bold">{{orderCount}}</div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Discount</h4>
+                            <div class="ml-auto font-weight-bold">$ {{ couponPrice }}</div>
+                        </div>
+                        <hr class="my-1">
+                        <div class="d-flex">
+                            <h4>Coupon Discount</h4>
+                            <div class="ml-auto font-weight-bold">$ {{ couponPrice }}</div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Tax</h4>
+                            <div class="ml-auto font-weight-bold">$ 2</div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Shipping Cost</h4>
+                            <div class="ml-auto font-weight-bold">Free</div>
+                        </div>
+                        <hr>
+                        <div class="d-flex gr-total">
+                            <h5>Grand Total</h5>
+                            <div class="ml-auto h5">$ {{sumOfPaidOrders}}</div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 d-flex shopping-box">
+                <a  id="checkout-btn"  href="{{ path('app_orders_checkout_normal') }}" class="ml-auto btn hvr-hover">Checkout</a>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+

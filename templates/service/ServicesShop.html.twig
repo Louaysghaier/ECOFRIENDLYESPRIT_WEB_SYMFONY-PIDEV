@@ -1,0 +1,311 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Service Shop!{% endblock %}
+
+  
+{% block body %}
+                <!-- css  -->
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/responsive.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/style.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/bootstrap.min.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/custom.css') }}">
+       
+                <!-- ALL JS FILES -->
+                <script src="{{ asset('shopjs/js/jquery-3.2.1.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/popper.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/bootstrap.min.js') }}"></script>
+                <!-- ALL PLUGINS -->
+                <script src="{{ asset('shopjs/js/jquery.superslides.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/bootstrap-select.js') }}"></script>
+                <script src="{{ asset('shopjs/js/inewsticker.js') }}"></script>
+                <script src="{{ asset('shopjs/js/bootsnav.js') }}"></script>
+                <script src="{{ asset('shopjs/js/images-loded.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/isotope.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/owl.carousel.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/baguetteBox.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/form-validator.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/contact-form-script.js') }}"></script>
+                <script src="{{ asset('shopjs/js/custom.js') }}"></script>
+
+                        <!-- code   -->
+
+    <section class="heading-page header-text" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6>Welcome to our services</h6>
+                    <h2>Check & Buy</h2>
+                    <div class="btn bg-danger" style="color: white; text-decoration-color: white;">Ask our chatbot</div>
+                </div>
+            </div>
+        </div>
+    </section>
+<div class="main-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="custom-select-box">
+                        <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD">
+							<option>DT DinarTN</option>
+							<option>$ USD</option>
+							<option>€ EUR</option>
+						</select>
+                    </div>
+                    <div class="right-phone-box">
+                        <p>Call US :- <a href="#"> +216 55125290</a></p>
+                    </div>
+                    <div class="our-link">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-user s_color"></i> My Account</a></li>
+                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
+                            <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="login-box">
+						<select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In">
+							<option>Register Here</option>
+							<option>Sign In</option>
+						</select>
+					</div>
+                    <div class="text-slid-box">
+                        <div id="offer-box" class="carouselTicker">
+                            <ul class="offer-box">
+                                <li>
+                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code:10 dt
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Ecofriendly Esprit est votre solution
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Welcome in our shop plateforme
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Check our lastest fixtures
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> 50% - 80% off on 
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Our Project is under Esprit Pi dev devellopement
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> our only Shop for service is here
+                                </li>
+                            </ul>
+                            <script>
+                                $('.offer-box').inewsticker({
+                                    speed: 3000,
+                                    effect: 'fade',
+                                    dir: 'ltr',
+                                    font_size: 13,
+                                    color: '#ffffff',
+                                    font_family: 'Montserrat, sans-serif',
+                                    delay_after: 1000
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                
+ <!-- Start Shop Page  -->
+<div class="shop-box-inner">
+    <div class="container">
+        <div class="row">
+                 <!-- cards -->
+                <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
+                        <div class="right-product-box">
+                            <div class="product-categorie-box">
+                                <div class="tab-content">
+                                        <style>
+                                            .meeting-item {
+                                                border: 1px solid #ddd; /* Add border */
+                                                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow */
+                                                margin-bottom: 20px; /* Add some space between cards */
+                                                padding: 15px; /* Add padding for better spacing */
+                                            }
+                                            .down-content {
+                                                margin-top: 15px; /* Add space between image and text */
+                                            }
+
+                                            .btn-group {
+                                                display: flex; /* Make buttons side by side */
+                                                justify-content: space-between; /* Add space between buttons */
+                                            }
+
+                                            .btn {
+                                                width: 48%; /* Set a width to make buttons fit in the container with a small gap */
+                                            }
+                                        </style>
+
+                                    {% for flashMessage in app.flashes('success') %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ flashMessage }}
+                                        </div>
+                                    {% endfor %}
+
+                                    <div class="row" id="search-results">
+                                                        {% for service in services %}
+                                                            <div class="col-lg-4  mb-4">
+                                                                <div class="meeting-item" style="width: 100%;">
+                                                                    <div class="thumb" style="text-align: center;">
+                                                                        {% if service.getImg() is not null %}
+                                                                            <img src="{{ asset('uploads/images/' ~ service.getImg()) }}" alt="{{ service.getServicename() }}" style="width: 100%; height: auto;">
+                                                                        {% else %}
+                                                                            <p>No image available</p>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="down-content">
+                                                                        <div class="date">
+                                                                            <h6 >NAME OF THE SERVICE: <b>{{ service.getServicename() }} </b></h6>
+                                                                        </div>
+                                                                        <h4>PRICE :{{ service.getPrice() }}</h4><br>
+                                                                        <button class="btn btn-danger" onclick="addToOrder({{ service.getServiceid() }})">Add me!</button>
+                                                                        <a class=" btn btn-danger " href="{{ path('app_orders_show_details' , {'serviceid': service.serviceid}) }}">Show</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+
+
+                                        <script>
+                                            function addToOrder(serviceId) {
+                                                // Send an AJAX request to your Symfony controller
+                                                $.ajax({
+                                                    url: "{{ path('add_to_order') }}",
+                                                    method: "POST",
+                                                    data: { serviceId: serviceId },
+
+                                                    success: function(response) {
+                                                        location.reload();
+                                                    },
+                                                    error: function(error) {
+                                                        console.error("Error adding service to order:", error);
+                                                    }
+                                                });
+                                            }
+
+
+                                        </script>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>   
+                    <!-- Sidebar -->
+                <div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
+                    <div class="product-categori" style="padding-bottom: 20px;">
+                        <!-- Search Form -->
+                        <div class="search-product">
+                            <form action="{{ path('search') }}" method="GET">
+                                <input class="form-control" placeholder="Search here..." type="text" name="search_term">
+                                <button type="submit"> <i class="fa fa-search"></i> </button>
+                            </form>
+                        </div>
+
+                        <!-- Refresh Button -->
+                        <div class="search-product "  style="padding-top: 20px;">
+
+                            <a href="{{ path('app_service_shop') }}"></a>
+                            <br>
+                            <form action="{{ path('app_service_shop') }}" method="GET">
+                                <button  type="submit">  <b class="text-white">refresh the page  </b>  <i class="fa fa-undo" style="color: white;"></i></button>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <!-- Categories -->
+                        <div class="filter-sidebar-left">
+                            <div class="title-left">
+                                <h3>Categories</h3>
+                            </div>
+                            <!-- Your category filters here -->
+                                <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men" data-children=".sub-men">
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-men1" data-toggle="collapse" aria-expanded="true" aria-controls="sub-men1">Filter now <small class="text-muted">(100)</small>
+                                    </a>
+                                        <div class="collapse show" id="sub-men1" data-parent="#list-group-men">
+                                            <div class="list-group">
+                                                <a href="{{ path('app_service_shop') }}" class="list-group-item list-group-item-action active">Top Rated <small class="text-muted">(50)</small></a>
+                                                <a href="{{ path('app_service_shop') }}" class="list-group-item list-group-item-action">Promotion <small class="text-muted">(10)</small></a>
+                                                <a href="{{ path('app_service_shop') }}" class="list-group-item list-group-item-action">Low Budget <small class="text-muted">(10)</small></a>
+                                                <a href="{{ path('app_service_shop') }}" class="list-group-item list-group-item-action">Max Budget <small class="text-muted">(10)</small></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                        </div>
+
+                        
+
+                        <!-- Custom Categories -->
+                    <div class="categories meeting-item">
+                        <h4>Mr Sghaier louay</h4>
+                        <ul>
+                            <li>Your Current money </li><br>
+                            <p><b class="text-success">"{{ PaidOrders }} dt"</b></p>
+
+
+                             <i class="fas fa-tags"></i>
+                                <a href="{{ path('qrcode') }}">Check for Promo-Code</a>
+                                <br>
+
+
+                            <button class="btn btn-info pt-2 " data-toggle="modal" data-target="#qrCodeModal"><i class="fas fa-qrcode"></i>  QR Code<br></button>
+
+                            {% if sumOfPaidOrders > 40 %}
+                                <p>Your QR code is ready!</p>
+                            {% else %}
+                                <p>your order is under 40 dt Buy More to get reduction.</p>
+                            {% endif %}
+                        </ul>
+
+                        <div class="main-button-red">
+                            <a href="{{ path('app_orders_index') }}">Finaliser votre achat</a>
+                        </div>
+                    </div>
+
+                    {% if sumOfPaidOrders > 40 %}
+                        <!-- QR Code Modal -->
+                        <div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="qrCodeModalLabel">QR Code</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Display your QR code here -->
+                                        <img src="{{ qrCode }}" alt="QR Code" style="width: 100%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Shop Page -->
+             
+            
+    <!--top button -->
+        <a class="bg-danger" href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
+
+{% endblock %}

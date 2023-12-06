@@ -1,0 +1,46 @@
+{# event/stat2.html.twig #}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiques</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1>Statistiques par catégorie</h1>
+
+<div style="width: 40%; margin: auto;">
+    <canvas id="categoryChart" width="400" height="400"></canvas>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Récupérer les données du graphique depuis l'attribut data-chart-data
+        var categoryData = {{ categoryData | raw }};
+
+        // Configuration du graphique circulaire
+        var config = {
+            type: 'pie',
+            data: {
+                labels: categoryData.labels,
+                datasets: [{
+                    data: categoryData.datasets[0].data,
+                    backgroundColor: categoryData.datasets[0].backgroundColor,
+                }],
+            },
+            options: {
+                responsive: true,
+            },
+        };
+
+        // Dessiner le graphique sur le canvas avec l'ID 'categoryChart'
+        var ctx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(ctx, config);
+    });
+</script>
+
+</body>
+</html>

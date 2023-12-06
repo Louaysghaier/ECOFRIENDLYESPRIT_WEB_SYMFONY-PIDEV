@@ -1,0 +1,64 @@
+{# templates/chart.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Participation Chart</title>
+    <style>
+        /* Ajoutez vos styles CSS ici */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        #eventChart {
+            max-width: 600px; /* Ajustez la largeur maximale du graphique */
+            margin: 20px auto; /* Centre le graphique horizontalement avec une marge */
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="eventChartContainer">
+        <canvas id="eventChart" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('eventChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sport', 'Loisir', 'Culture'],
+                    datasets: [{
+                        label: 'Nombre de Participations par Type d\'Événement',
+                        data: [{{ sportTotalParticipants  }}, {{ loisirTotalParticipants  }}, {{ cultureTotalParticipants  }}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 206, 86, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

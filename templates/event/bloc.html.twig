@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Liste des événements
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .col-md-6 {
+            flex: 0 0 48%;
+            margin-bottom: 20px;
+        }
+
+        .event-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        h3 {
+            color: #555;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Liste des événements</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Événements Validés</h2>
+                {% for event in events %}
+                    {% if event.valid %}
+                        <div class="event-item">
+                            <h3>{{ event.nomevent }}</h3>
+                            <p>Lieu: {{ event.lieuevent }}</p>
+                            <!-- Ajoutez d'autres détails selon vos besoins -->
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="col-md-6">
+                <h2>Événements Annulés</h2>
+                {% for event in events %}
+                    {% if not event.valid %}
+                        <div class="event-item">
+                            <h3>{{ event.nomevent }}</h3>
+                            <p>Lieu: {{ event.lieuevent }}</p>
+                            <!-- Ajoutez d'autres détails selon vos besoins -->
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

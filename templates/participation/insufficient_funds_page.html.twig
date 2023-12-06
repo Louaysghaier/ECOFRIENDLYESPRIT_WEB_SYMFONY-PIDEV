@@ -1,0 +1,16 @@
+{# templates/payment_error_page.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur de Paiement{% endblock %}
+
+{% block body %}
+    <h1>Erreur de Paiement</h1>
+    <p>Une erreur s'est produite lors du traitement de votre paiement PayPal.</p>
+    
+    {% if app.request.query.has('error_message') %}
+        <p>Message d'erreur : {{ app.request.query.get('error_message') }}</p>
+    {% endif %}
+    
+    {# Ajoutez ici d'autres détails ou suggestions pour l'utilisateur #}
+{% endblock %}
