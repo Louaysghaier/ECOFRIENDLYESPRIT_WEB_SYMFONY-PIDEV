@@ -73,7 +73,7 @@
                                 {% for event in eventsInPanier %}
                                     <div class="col-md-6 mb-4">
                                         <div class="card custom-card">
-                                            <img src="{{ asset('uploads/eventim/' ~ event.getImage()) }}" class="card-img-top" alt="{{ event.getNomevent() }}">
+                                            <img src="{{ asset('uploads/images_directory/' ~ event.getImage()) }}" class="card-img-top" alt="{{ event.getNomevent() }}">
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ event.getNomevent() }}</h5>
                                                 <p class="card-text">{{ event.getDescriptionevent() }}</p>

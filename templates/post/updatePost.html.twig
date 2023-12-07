@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Post!{% endblock %}
+
+{% block body %}
+ <section class="contact-us" id="contact">
+    <div class="form-container">
+    <h2>Modify your Post!</h2>
+    <table>
+
+        {# Ajoutez la classe "form-container" à l'élément du formulaire #}
+        {{ form_start(form, {'attr': {'class': 'form-container'}}) }}
+        <div class="align">
+    <tr>
+        <div class="form-group">
+             <div class="formu-Postlabel">
+                {{ form_label(form.subject) }}
+            </div>
+            {{ form_widget(form.subject) }}
+        </div>
+    </tr>
+    <tr>
+        <div class="form-group">
+            <div class="formu-Postlabel">
+                {{ form_label(form.title) }}
+            </div>
+            {{ form_widget(form.title) }}
+        </div>
+    </tr>
+    <tr>
+        <div class="form-group">
+            <div class="formu-Postlabel">
+                {{ form_label(form.descriptionPost) }}
+            </div>
+            {{ form_widget(form.descriptionPost) }}
+        </div>
+    </tr>
+        <div class="form-group">
+            <div class="formu-Postlabel">
+                {{ form_label(form.imagePost) }}
+            </div>
+            {{ form_widget(form.imagePost) }}
+        </div>
+    </tr>
+        {# Si vous avez exclu idUser du mappage, vous pouvez l'ajouter manuellement ici si nécessaire #}
+        {# <div class="form-group">
+            {{ form_label(form.idUser) }}
+            {{ form_row(form.idUser) }}
+        </div> #}
+
+        {# Bouton de soumission #}
+    <tr> 
+        <div class="form-group">
+            {{ form_row(form.Share) }}
+        </div>
+    </tr>
+    </table>
+        {{ form_end(form) }}
+    </div>
+    </div>
+</section>
+{% endblock %}

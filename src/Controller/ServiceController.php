@@ -205,4 +205,45 @@ class ServiceController extends AbstractController
         ]);
     }
 
+    #[Route('/statistics', name: 'app_statistics', methods: ['GET'])]
+    public function statistics(
+        OrdersRepository $ordersRepository,
+        ServiceRepository $serviceRepository
+    ): Response {
+        $orderData = $ordersRepository->getTotalOrdersPerDay();
+        $serviceData = $serviceRepository->findAll(); // Assuming you have a method to fetch service data
+
+        $orderDates = [];
+        $totalOrders = [];
+
+        foreach ($orderData as $item) {
+            $orderDates[] = $item['orderDate'];
+            $totalOrders[] = $item['totalOrders'];
+        }
+
+        // Add additional statistics for Orders entity
+        $totalOrdersCount = count($orderData);
+        $averagePrice = $ordersRepository->getAverageOrderPrice();
+
+        // Prepare data for service chart
+        $serviceDataLabels = [];
+        $serviceDataValues = [];
+
+        foreach ($serviceData as $service) {
+            $serviceDataLabels[] = $service->getServicename();
+            $serviceDataValues[] = $service->getPrice();
+        }
+
+        return $this->render('orders/statis.html.twig', [
+            'orderDates' => json_encode($orderDates),
+            'totalOrders' => json_encode($totalOrders),
+            'totalOrdersCount' => $totalOrdersCount,
+            'averagePrice' => $averagePrice,
+            'serviceDataLabels' => json_encode($serviceDataLabels),
+            'serviceDataValues' => json_encode($serviceDataValues),
+        ]);
+    }
+
+
+
 }

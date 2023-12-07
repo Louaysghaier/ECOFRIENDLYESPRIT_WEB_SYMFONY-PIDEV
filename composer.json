@@ -12,8 +12,10 @@
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.16",
+        "dompdf/dompdf": "^2.0",
         "endroid/qr-code": "^5.0",
         "endroid/qr-code-bundle": "^5.0",
+        "knplabs/knp-paginator-bundle": "^5.9",
         "paypal/rest-api-sdk-php": "^1.14",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.24",
@@ -48,7 +50,8 @@
         "symfony/yaml": "5.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
-        "twilio/sdk": "^7.12"
+        "twilio/sdk": "^7.12",
+        "vich/uploader-bundle": "^2.2"
     },
     "config": {
         "allow-plugins": {

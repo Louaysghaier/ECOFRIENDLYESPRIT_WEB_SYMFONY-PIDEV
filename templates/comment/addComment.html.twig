@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Post!{% endblock %}
+
+{% block body %}
+<section class="contact-us" id="contact">
+    <div class="form-container">
+    <h2> Add Your Comment!</h2>
+    {% for flashMessage in app.flashes('danger') %}
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+    {% endfor %}
+    <table>
+
+        {# Ajoutez la classe "form-container" à l'élément du formulaire #}
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        <div class="align">
+        <tr>
+            <div class="form-group">
+                <div class="formu-Postlabel">
+                    <label class="col-sn-4 col-form-label">New Comment </label>
+                </div>
+                {{ form_widget(form.descriptionComment) }}
+            </div>
+            {{ form_errors(form.descriptionComment, { attr: { class: 'text-danger' }, only: true }) }}
+        </tr>
+        <tr> 
+            <div class="form-group">
+            <li data-filter="*"><a href="{{ path('Readcommentfront', {'postId': postId }) }}">{{ form_widget(form.Share) }}</a></li>
+            </div>
+        </tr>
+    </table>
+        {{ form_end(form) }}
+        {# Afficher les messages flash #}
+            
+    </div>
+    </div>
+</section>
+{% endblock %}

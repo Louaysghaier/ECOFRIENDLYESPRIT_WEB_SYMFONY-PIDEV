@@ -1,0 +1,72 @@
+{% block body %}
+ <style>
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style de base pour le corps de la page */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Style pour la carte */
+.card {
+    width: 50%;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour le titre de la carte */
+.card-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    padding: 20px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Style pour le corps de la carte */
+.card-body {
+    padding: 20px;
+}
+
+/* Style pour le QR Code */
+.card-text img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px;
+}
+
+/* Style pour le texte supplémentaire */
+.card-text p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #666;
+}
+</style>
+
+
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Document QR Code</h5>
+           
+            <p class="card-text">
+               <img src="{{ qrCode }}" alt="QR Code" style="width: 40%;">
+                 <span class="ml-3">
+                 <p>Here Your Document Detail </p>
+               </span>
+            </p>
+        </div>
+    </div>
+{% endblock %}

@@ -11,6 +11,9 @@ parameters:
     gmail_app_password: '%env(GMAIL_APP_PASSWORD)%'
     eventim_directory: '%kernel.project_dir%/public/uploads/eventim'
     qrcodes_directory: '%kernel.project_dir%/public/qrcodes'
+    knp_snappy.pdf.binary: 'C:\Program Files\wkhtmltopdf'
+    brochures_directory: '%kernel.project_dir%/public/upload/brochures'
+
 services:
 
     App\Service\QrCodeService:
@@ -18,7 +21,9 @@ services:
     App\Service\CurrentUserService:
         arguments:
             $security: '@security.helper'
-
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%brochures_directory%'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -32,7 +37,13 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-           
+
+    Knp\Snappy\Pdf:
+        arguments:
+            - "%knp_snappy.pdf.binary%"
+            - [ ]
+
+
     App\Controller\UserController:
         arguments:
             $passwordEncoder: '@security.password_encoder'

@@ -1,9 +1,13 @@
 {# templates/chart.twig #}
 
+{# templates/combined_stats.html.twig #}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Event Participation Chart</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Statistics</title>
     <style>
         /* Ajoutez vos styles CSS ici */
         body {
@@ -11,54 +15,112 @@
             background-color: #f5f5f5;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        #eventChart {
-            max-width: 600px; /* Ajustez la largeur maximale du graphique */
-            margin: 20px auto; /* Centre le graphique horizontalement avec une marge */
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px; /* Ajustez la largeur maximale des statistiques */
+            margin: 20px auto; /* Centre les statistiques horizontalement avec une marge */
+        }
+
+        .stats-column {
+            width: 48%; /* Ajustez la largeur des colonnes des statistiques */
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
+
+        #categoryChart,
+        #eventChart {
+            width: 100%;
+        }
+
+        /* Ajoutez d'autres styles au besoin */
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div id="eventChartContainer">
-        <canvas id="eventChart" width="400" height="400"></canvas>
+
+<h1>Statistiques par catégorie</h1>
+
+<div class="stats-container">
+    <div class="stats-column">
+        <h2>Nombre des événements par catégorie</h2>
+
+        <canvas id="categoryChart" width="400" height="400"></canvas>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var ctx = document.getElementById('eventChart').getContext('2d');
-            var chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Sport', 'Loisir', 'Culture'],
-                    datasets: [{
-                        label: 'Nombre de Participations par Type d\'Événement',
-                        data: [{{ sportTotalParticipants  }}, {{ loisirTotalParticipants  }}, {{ cultureTotalParticipants  }}],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(255, 206, 86, 1)',
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+    <div class="stats-column">
+        <h2>Participations par Type d'Événement</h2>
+
+        <canvas id="eventChart" width="400" height="400"></canvas>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Récupérer les données du graphique depuis l'attribut data-chart-data
+        var categoryData = {{ categoryData | raw }};
+
+        // Configuration du graphique circulaire
+        var categoryConfig = {
+            type: 'pie',
+            data: {
+                labels: categoryData.labels,
+                datasets: [{
+                    data: categoryData.datasets[0].data,
+                    backgroundColor: categoryData.datasets[0].backgroundColor,
+                }],
+            },
+            options: {
+                responsive: true,
+            },
+        };
+
+        // Dessiner le graphique sur le canvas avec l'ID 'categoryChart'
+        var categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, categoryConfig);
+
+        // Configuration du graphique à barres
+        var eventConfig = {
+            type: 'bar',
+            data: {
+                labels: ['Sport', 'Loisir', 'Culture'],
+                datasets: [{
+                    label: 'Nombre de Participations par Type d\'Événement',
+                    data: [{{ sportTotalParticipants  }}, {{ loisirTotalParticipants  }}, {{ cultureTotalParticipants  }}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
                 }
-            });
-        });
-    </script>
+            }
+        };
+
+        // Dessiner le graphique sur le canvas avec l'ID 'eventChart'
+        var eventCtx = document.getElementById('eventChart').getContext('2d');
+        new Chart(eventCtx, eventConfig);
+    });
+</script>
+
 </body>
 </html>

@@ -57,6 +57,15 @@ public function updatePaymentStatusByEventId($eventId)
     return $qb->getQuery()->execute();
 }
 
+    public function findByEvents(int $eventId)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.event = :eventId')
+            ->setParameter('eventId', $eventId)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
 

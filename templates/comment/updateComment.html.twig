@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Comment!{% endblock %}
+
+{% block body %}
+<section class="contact-us" id="contact">
+    <div class="form-container">
+    <h2>Modify your Comment!</h2>
+    <table>
+
+        {# Ajoutez la classe "form-container" à l'élément du formulaire #}
+        {{ form_start(form, {'attr': {'class': 'form-container'}}) }}
+        <div class="align">
+        <tr>
+            <div class="form-group">
+                <div class="formu-Postlabel">
+                    {{ form_label(form.descriptionComment) }}
+                </div>
+                {{ form_widget(form.descriptionComment) }}
+            </div>
+        </tr>
+        <tr> 
+            <div class="form-group">
+                {{ form_row(form.Share) }}
+            </div>
+        </tr>
+    </table>
+        {{ form_end(form) }}
+    </div>
+    </div>
+</section>
+{% endblock %}

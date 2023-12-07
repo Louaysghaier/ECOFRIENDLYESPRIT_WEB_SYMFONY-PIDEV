@@ -10,7 +10,7 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             <!-- Bootstrap core CSS -->
-            <link href={{asset("vendor/bootstrap/css/bootstrap.min.css")}} rel="stylesheet">
+            <link rel="stylesheet" href={{asset("vendor/bootstrap/css/bootstrap.min.css")}} >
 
 
             <!-- Additional CSS Files -->
@@ -19,8 +19,9 @@
             <link rel="stylesheet" href={{asset("assets/css/owl.css")}}>
             <link rel="stylesheet" href={{asset("assets/css/lightbox.css")}}>
             <link rel="stylesheet" href={{asset("assets/css/fontawesome.css")}}>
-            <link rel="stylesheet" href={{asset("css/Post.css")}}>
+            <link rel="stylesheet" href={{asset("css/document.css")}}>
             <link rel="stylesheet" href="{{ asset('css/ServiceForm.css') }}">
+            <link rel="stylesheet" href={{asset("")}}>
 
             {#back#}
             <link href={{asset("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css")}} rel="stylesheet">
@@ -113,7 +114,7 @@
     <body>
 
     {% block headerfront %}
- 
+
     <!-- ***** Header Area Start ***** -->
     {#<header class="header-area header-sticky">
         <div class="container">
@@ -167,8 +168,8 @@
                                 </ul>
                             </li>
                             <li class="scroll-to-section"><a href="#courses">Courses</a></li> #}
-                            {#<li class="scroll-to-section"><a href="#contact">Contact Us</a></li> 
-                        </ul>        
+                            {#<li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                        </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
                         </a>
@@ -177,7 +178,7 @@
                 </div>
             </div>
         </div>
-    
+
     <!-- ***** Header Area End ***** -->
 
     </header>#}
@@ -189,43 +190,43 @@
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
                         <a href="index.html" class="logo">
-                            Eco Friendly Esprit
+                            EcoFriendly Esprit
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
+
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{{ path('apptemplate')}}" class="active">Home</a></li>
+                            {# <li class="scroll-to-section"><a href="{{ path('user_profile',{'id' : user.iduser()} ) }}" class="active">Profil</a></li> #}
                             <li class="has-sub">
                                 <a href="javascript:void(0)">Forum</a>
                                 <ul class="sub-menu">
-                                    <li><a href="meetings.html">Upcoming Meetings</a></li>
-                                    <li><a href="meeting-details.html">Meeting Details</a></li>
+                                    <li><a href="{{ path('SaleandExchange') }}">Sale & Exchange</a></li>
+                                    <li><a href="{{ path('CodingProblems') }}">Coding Problems</a></li>
+                                    <li><a href="{{ path('EspritProblems') }}">Esprit Problems</a></li>
+                                    <li><a href="{{ path('myforum') }}">My Forum</a></li>
                                 </ul>
                             </li>
-                         <li class="scroll-to-section"><a href="{{ path('affichecard')}}" class="active">Events</a></li>
+                            <li class="scroll-to-section"><a href="{{ path('affichecard') }}" class="active">Event</a></li>
+                            <li class="scroll-to-section"><a href="{{ path('app_reservation') }}" class="active">Transport</a></li>
 
-                            
-                            <li class="has-sub">
-                                <a href="javascript:void(0)">Transport</a>
-                                <ul class="sub-menu">
-                                    <li><a href="meetings.html">Upcoming Meetings</a></li>
-                                    <li><a href="meeting-details.html">Meeting Details</a></li>
-                                </ul>
-                            </li>
                             <li class="has-sub">
                                 <a href="javascript:void(0)">Biblio</a>
                                 <ul class="sub-menu">
-                                    <li><a href="meetings.html">Upcoming Meetings</a></li>
-                                    <li><a href="meeting-details.html">Meeting Details</a></li>
+                                    <li><a href="{{ path('AfficheDoc')}}">LYBRIRY</a></li>
+                                    <li><a href="{{ path('mylibrary') }}">MY LIBRARY</a></li>
+
                                 </ul>
                             </li>
-
-                            <li class="scroll-to-section"><a href="{{ path('app_service_shop')}}" class="active">Service</a></li>
-
-
-
-                            <li class="scroll-to-section"><a href="#contact">Contact Us</a></li> 
+                            <li class="has-sub">
+                                <a href="javascript:void(0)">Services</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{ path('app_service_shop') }}"> service shop</a></li>
+                                </ul>
+                            </li>
+                            <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
                         </ul>
+
                         <a class='menu-trigger'>
                             <span>Menu</span>
                         </a>
@@ -234,23 +235,22 @@
                 </div>
             </div>
         </div>
-    </header>
     <!-- ***** Header Area End ***** -->
-
+    </header>
     {% endblock %}
         {% block body %}{% endblock %}
     {% block footerfront %}
     <footer>
         <section class="contact-us" id="contact">
             <div class="footer">
-                <p>Copyright © 2022 Edu Meeting Co., Ltd. All Rights Reserved. 
+                <p>Copyright © 2022 Edu Meeting Co., Ltd. All Rights Reserved.
                 <br>
                 Design: <a href="https://templatemo.com" target="_parent" title="free css templates">TemplateMo</a>
                 <br>
                 Distibuted By: <a href="https://themewagon.com" target="_blank" title="Build Better UI, Faster">ThemeWagon</a>
                 </p>
             </div>
-    
+
         </section>
     </footer>
     {% endblock %}

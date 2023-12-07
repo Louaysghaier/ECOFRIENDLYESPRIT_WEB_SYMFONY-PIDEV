@@ -92,35 +92,38 @@ class EventController extends AbstractController
             
         ]);
     }
-    
 
 
 
 
 
     #[Route('/supprimevent/{i}', name: 'supprimevent')]
-    public function DeleteEvent($i,EventRepository $repo,ManagerRegistry  $doctrine): Response
+    public function deleteEvent(int $i, EntityManagerInterface $entityManager, ParticipationRepository $participationRepository): Response
     {
+        $event = $entityManager->getRepository(Event::class)->find($i);
 
-         //recuperer l auteur a supprimer
+        if (!$event) {
+            throw $this->createNotFoundException('L\'événement n\'existe pas');
+        }
 
-         $event=$repo->find($i);
-          //recuperer le entity manager;le chef d orchestre de Orm
-         $em=$doctrine->getManager();
-         $participations = $em->getRepository(Participation::class)->findBy(['event' => $event]);
+        // Récupérer les participations pour cet événement
+        $participations = $participationRepository->findByEvents($i);
 
-    // Supprimer les participations liées à cet événement
-    foreach ($participations as $participation) {
-        $em->remove($participation);
-    }
-         //action suppression
-         $em->remove($event);
-         //commit
-         $em->flush();
+        // Supprimer les participations
+        foreach ($participations as $participation) {
+            $entityManager->remove($participation);
+        }
+
+        // Ensuite, supprimer l'événement
+        $entityManager->remove($event);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'L\'événement a été supprimé avec succès.');
+
+        // Rediriger vers la page d'accueil ou une autre page
         return $this->redirectToRoute('affichevent');
+
     }
-    
-   
 
 #[Route('/editevent/{i}', name: 'editevent')]
     public function editevent($i,ManagerRegistry $doctrine , EventRepository $repo,Request $req): Response
@@ -170,51 +173,51 @@ public function searchByName(EventRepository $eventRepository, Request $request)
     ]);
 }
 
-    
+
 
 
 
     #[Route('/addEvent', name: 'addEvent')]
     public function ajoutA(ManagerRegistry $doctrine, Request $req): Response
-    { 
+    {
         // Instancier l'objet Event
         $event = new Event();
-    
+
         // Créer le formulaire
         $form = $this->createForm(EventType::class, $event);
-    
+
         // Récupérer les données saisies dans le formulaire
         $form->handleRequest($req);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             // Gestion de l'upload de l'image
             $imageFile = $form->get('image')->getData();
-    
+
             if ($imageFile) {
                 // Générer un nom unique pour le fichier
                 $newFilename = uniqid().'.'.$imageFile->getClientOriginalExtension();
-    
+
                 // Déplacer le fichier dans le répertoire où les images sont stockées
                 $imageFile->move(
-                    $this->getParameter('eventim_directory'),
+                    $this->getParameter('images_directory'),
                     $newFilename
                 );
-    
+
                 // Stocker le nom du fichier dans la base de données
                 $event->setImage($newFilename);
             }
-    
+
             // Définir la date de création sur la date actuelle
             $event->setDateCreation(new \DateTime());
-    
+
             // Enregistrer l'événement dans la base de données
             $entityManager = $doctrine->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
-    
+
             return $this->redirectToRoute('affichevent');
         }
-    
+
         return $this->render('event/addEvent.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -224,14 +227,14 @@ public function searchByName(EventRepository $eventRepository, Request $request)
 
 
 
-    
 
 
 
-  
 
 
- 
+
+
+
     #[Route('/showDetails/{i}', name: 'showDetails')]
 public function showDetails($i, EventRepository $repo)
 {
@@ -427,21 +430,37 @@ private function sendSms($phoneNumber, $message)
 }
 
 
-#[Route('/stat', name: 'stat')]
-public function stat(): Response
-{
-    $entityManager = $this->getDoctrine()->getManager();
+    #[Route('/stat', name: 'stat')]
+    public function stat(EventRepository $eventRepository): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
 
-    $sportTotalParticipants = $entityManager->getRepository(Event::class)->countTotalParticipantsByEventType('Sport');
-    $loisirTotalParticipants = $entityManager->getRepository(Event::class)->countTotalParticipantsByEventType('Loisir');
-    $cultureTotalParticipants = $entityManager->getRepository(Event::class)->countTotalParticipantsByEventType('Culture');
+        $sportTotalParticipants = $entityManager->getRepository(Event::class)->countTotalParticipantsByEventType('Sport');
+        $loisirTotalParticipants = $entityManager->getRepository(Event::class)->countTotalParticipantsByEventType('Loisir');
+        $cultureTotalParticipants = $entityManager->getRepository(Event::class)->countTotalParticipantsByEventType('Culture');
+        $categories = $eventRepository->countEventsByCategory();
 
-    return $this->render('event/stat.html.twig', [
-        'sportTotalParticipants' => $sportTotalParticipants,
-        'loisirTotalParticipants' => $loisirTotalParticipants,
-        'cultureTotalParticipants' => $cultureTotalParticipants,
-    ]);
-}
+        $data = [
+            'labels' => array_keys($categories),
+            'datasets' => [
+                [
+                    'data' => array_values($categories),
+                    'backgroundColor' => [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56',
+                        // ... add more colors as needed
+                    ],
+                ],
+            ],
+        ];
+        return $this->render('event/stat.html.twig', [
+            'sportTotalParticipants' => $sportTotalParticipants,
+            'loisirTotalParticipants' => $loisirTotalParticipants,
+            'cultureTotalParticipants' => $cultureTotalParticipants,
+            'categoryData' => json_encode($data),
+        ]);
+    }
 
 #[Route('/eventsbloc', name: 'eventsbloc')]
     public function eventsblock(Request $request, $status = 'all'): Response

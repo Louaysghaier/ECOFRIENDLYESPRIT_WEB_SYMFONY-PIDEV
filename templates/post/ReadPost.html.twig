@@ -1,0 +1,43 @@
+{% extends 'back.html.twig' %}
+{% block title %} List Post {% endblock %}
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <table border="2">
+    <div style="display: flex, align-items: center; justify-content:center">
+        <thead>
+            <th>First Name User</th>
+            <th>Last name User</th>
+            <th>Subject</th>
+            <th>Title</th>
+            <th>Description </th>
+            <th>Image</th>
+            <th>Number of Comments</th>
+            <th>Date of Creation</th>
+            
+        </thead>
+        <tbody>
+        {% for post in p %}
+        <tr>
+            <td>{{post.prenomUser}}</td>
+            <td>{{post.nomUser}}</td>
+            <td>{{post.subject}}</td>
+            <td>{{post.title}}</td>
+            <td>{{post.descriptionPost}}</td>
+            <td>{{post.imagePost}}</td>
+            <td>{{post.nbrecomments}}</td>
+            <td>{{post.dateCreationPost}}</td>
+           {# <td>
+                <a href="{{}}"
+            </td> #}
+        </tr>
+        {% endfor %}
+        </tbody>
+        </div>
+    </table>
+</div>
+{% endblock %}

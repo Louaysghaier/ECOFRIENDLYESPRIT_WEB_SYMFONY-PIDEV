@@ -24,6 +24,15 @@ use Doctrine\Common\Collections\Collection;
 class User2  implements UserInterface
 {
     /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user2", orphanRemoval=true)
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user2", orphanRemoval=true)
+     */
+    private $posts;
+    /**
      * @var int
      *
      * @ORM\Column(name="iduser", type="integer", nullable=false)
@@ -126,7 +135,15 @@ class User2  implements UserInterface
  */
 private $reset_token;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Transport::class, mappedBy="iduser")
+     */
+    private Collection $transports;
 
+    /**
+     * @ORM\OneToMany(mappedBy="iduser", targetEntity=Ticket::class)
+     */
+    private Collection $tickets;
 
 
 
@@ -326,9 +343,14 @@ private $reset_token;
 
 
 
+
+
     public function __construct()
     {
         $this->panier = new ArrayCollection();
+        $this->transports = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
   /**
      * @return Collection|Event[]
@@ -355,7 +377,55 @@ private $reset_token;
     }
 
 
+    public function getTransports(): Collection
+    {
+        return $this->transports;
+    }
 
+    public function addTransport(Transport $transport): self
+    {
+        if (!$this->transports->contains($transport)) {
+            $this->transports->add($transport);
+            $transport->addIduser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransport(Transport $transport): self
+    {
+        if ($this->transports->removeElement($transport)) {
+            $transport->removeIduser($this);
+        }
+
+        return $this;
+    }
+
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function addTicket(Ticket$ticket): self
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets->add($ticket);
+            $ticket->setIduser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(Ticket $ticket): self
+    {
+        if ($this->tickets->removeElement($ticket)) {
+            if ($ticket->getIduser() === $this) {
+                $ticket->setIduser(null);
+            }
+        }
+
+        return $this;
+    }
 
 
 

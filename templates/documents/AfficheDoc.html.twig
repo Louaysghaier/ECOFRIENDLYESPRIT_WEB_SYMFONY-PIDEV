@@ -1,0 +1,122 @@
+{% extends 'back.html.twig' %}
+{% block title %}List Document{% endblock %}
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100px;  /* Set a max width for the image */
+            max-height: 100px; /* Set a max height for the image */
+        }
+    </style>
+    
+
+    <section class="upcoming-meetings" id="meetings">
+        <div class="example-wrapper">
+         <canvas id="documentChart" width="200" height="100"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Replace this with your logic to fetch data from the server
+        const data = {
+            labels: ["Semester 1", "Semester 2"], // Replace with your actual semester names
+            datasets: [{
+                label: 'Number of Documents',
+                data: [10, 15, 8, 20], // Replace with your actual document counts per semester
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Get the canvas element
+        const ctx = document.getElementById('documentChart').getContext('2d');
+
+        // Create the chart
+        const documentChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+    
+</script>
+
+            <table>
+                <thead>
+                    <th>Document Name</th>
+                    <th>Document Type</th>
+                    <th>Document</th>
+                    <th>Niveau</th>
+                    <th>Semestre</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                      
+                </thead>
+                <tbody>
+                    {% for document in d %}
+                        <tr>
+                            <td>{{ document.documentName }}</td>
+                            <td>{{ document.documentType }}</td>
+                            <td>
+                                {% if document.getDocument() is not null %}
+                                    <img src="{{ asset("uploads/images/" ~ document.getDocument()) }}" alt="Document Image">
+                                {% else %}
+                                    <p>No image available</p>
+                                {% endif %}
+                            </td>
+                            <td>{{ document.niveau }}</td>
+                            <td>{{ document.semestre }}</td>
+
+                                       
+
+
+                            <td>
+                                <a href="{{ path('modifdocuments', {'id': document.id}) }}">Update</a>
+                            </td>
+
+
+                            
+                            <td>
+                                <a href="{{ path('removedoc', {'id': document.id}) }}">Delete</a>
+                            </td>
+  
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+           
+
+
+
+        </div>
+        </section>
+{% endblock %}

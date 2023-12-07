@@ -1,0 +1,22 @@
+/* Styles pour les champs de texte et les comboboxes personnalisés */
+.custom-input {
+    background-color: rgba(169, 169, 169, 0.2); /* Fond semi-transparent en gris */
+    border: 1px solid gray; /* Bordure grise */
+    color: gray !important; /* Texte en gris avec !important pour annuler les styles par défaut */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Styles pour les labels personnalisés */
+.custom-input label {
+    color: gray !important; /* Texte du label en gris */
+    font-weight: bold; /* Texte en gras */
+}
+
+/* Styles pour les comboboxes personnalisés */
+.custom-select {
+    background-color: rgba(169, 169, 169, 0.2); /* Fond semi-transparent en gris */
+    border: 1px solid gray; /* Bordure grise */
+    color: gray !important; /* Texte en gris avec !important pour annuler les styles par défaut */
+    border-radius: 5px;
+}

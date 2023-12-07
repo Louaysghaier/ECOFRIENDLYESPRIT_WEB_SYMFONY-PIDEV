@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to Bilio!{% endblock %}
+
+{% block body %}
+    <section class="heading-page header-text" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6>Library corner</h6>
+                    <h2>Doc & Pleasure</h2>
+                    <div class="btn bg-danger" style="color: white; text-decoration-color: white;">Contact Us For Feedbacks !</div>
+                    <h2>WELCOME TO YOUR LIBRARY</h2>
+                    <ul>
+                        <li data-filter="*"><a href="{{ path('app_adddocuments') }}">Add Document</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="search-form">
+                    <form action="{{ path('search') }}" method="get">
+                        <input type="text" name="query" placeholder="Search">
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="meetings-page" id="meetings">
+        <div class="col-lg-12">
+            <div class="filters">
+                <ul>
+                    <li data-filter="*"><a href="{{ path('app_adddocuments') }}">Add Document</a></li>
+                    <li data-filter="*"> <a href="{{ path('mylibrary') }}">MY LIBRARY</a></li>
+                    <li data-filter="*"> <a href="{{ path('s') }}">Statistique</a></li>
+                </ul>
+                <ul>
+                    <!-- Update the link to use the correct route -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="search-form" style="margin-bottom: 20px;">
+                <form action="{{ path('search_doc') }}" method="get" style="display: flex;">
+                    <input type="text" name="query" placeholder="Search" style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px 0 0 4px;">
+                    <button type="submit" style="background-color: #4caf50; color: white; padding: 8px 8px; border: none; border-radius: 0 4px 4px 0; cursor: pointer;">Search</button>
+                </form>
+            </div>
+
+            <div class="row grid">
+                {% for document in userDocuments %}
+                    <div class="col-lg-4 templatemo-item-col all soon">
+                        <div class="meeting-item" style="height: 500px; border: 1px solid #ccc; border-radius: 10px; overflow: hidden;">
+                            <div class="thumb">
+                                <div id="carousel-{{ document.id }}" class="single-product-slider carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner" role="listbox">
+                                        <div class="carousel-item active">
+                                            <img class="d-block w-100" src="{{ asset('uploads/images/' ~ document.document) }}" alt="First slide">
+                                        </div>
+                                        <!-- Add additional carousel items as needed -->
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carousel-{{ document.id }}" role="button" data-slide="prev">
+                                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carousel-{{ document.id }}" role="button" data-slide="next">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="down-content" style="padding: 20px; display: flex; flex-direction: column; height: 100%;">
+                                <div class="flex-container" style="display: flex; align-items: center; justify-content: space-between;">
+                                    <div class="document-name">
+                                        <span>{{ document.getDocumentName() }}</span>
+                                    </div>
+                                    <div class="show-button">
+                                        <a href="{{ path('show_doc', {'id': document.id}) }}" class="btn btn-primary">Scan QR Code for Detail</a>
+                                    </div>
+                                    <a href="{{ path('pdf_view', {'filename': document.brochureFilename}) }}" class="btn btn-primary">Your PDF</a>
+                                </div>
+                                <div class="rating">
+                                    {% if document.getId() is not empty %}
+                                        {% set docRatings = document.getId() %}
+                                        {% set totalRatings = docRatings|length %}
+                                        {% for i in range(1, 6) %}
+                                            <i class="fas fa-star"></i>
+                                        {% endfor %}
+                                    {% else %}
+                                        Not rated yet
+                                    {% endif %}
+                                </div>
+                                <a href="{{ path('app_rate', {'id': document.id}) }}" style="text-decoration: none; color: #1f272b; margin-top: 10px;">Rate this document</a>
+                                <a href="{{ path('deleteDocument', {'id': document.id}) }}" class="btn btn-primary">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <style>
+        /* Apply styles to the form container */
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 120px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        /* ... (existing styles) ... */
+    </style>
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            {% if app.session.get('document_added_success') %}
+            alert('SMS ENVOYEE AVEC SUCCES!');
+            {% endif %}
+        </script>
+    {% endblock %}
+{% endblock %}

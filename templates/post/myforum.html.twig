@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Forum!{% endblock %}
+
+{% block body %}
+<style>
+
+    .design{
+         font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+
+    }
+
+    #content {
+        text-align: center;
+    }
+
+    .card-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .card {
+        width: 300px;
+        height: 250px;
+        background-color: #ffffcc;
+        margin: 0 10px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        color: #000000;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .card:hover {
+        transform: scale(1.1);
+        background-color: #e74c3c;
+    }
+
+    .icon {
+        width: 80px;
+        height: 80px;
+        background-color: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .card a {
+        color: #000000;
+        text-decoration: none;
+    }
+</style>
+
+<section class="contact-us" id="contact">
+  <div class="design">
+    <div id="content">
+        <h2 style="padding-bottom: 40px;">Welcome to My Forum</h2>
+        <div class="card-container">
+            <a href="{{ path('myposts') }}" class="card">
+                <div>My Posts</div>
+                <div class="icon">
+                    <img src="{{ asset('assets/images/posts.png') }}" alt="">
+                </div>
+            </a>
+            <a href="{{ path('mycomments') }}" class="card">
+                <div>My Comments</div>
+                <div class="icon">
+                    <img src="{{ asset('assets/images/comments.png') }}" alt="">
+                </div>
+            </a>
+        </div>
+      </div>
+    </div>
+</section>
+{% endblock %}

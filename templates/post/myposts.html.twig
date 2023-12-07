@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to Forum!{% endblock %}
+
+{% block body %}
+<style>
+    .card {
+        width: auto;
+        height: auto;
+        margin: 20px 0;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .down-content {
+        padding: 20px;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .user-name {
+        margin-right: 10px;
+        font-size: 20px;
+        color: #0d0d0d; /* Bleu */
+    }
+
+    .post-date {
+        align-self: flex-end;
+        text-align: right;
+        color: #910d0d; /* Rouge */
+    }
+
+    .post-title {
+        color: #ff0000; /* Vert */
+        font-size: 24px;
+        margin-top: 10px;
+    }
+
+    .post-description {
+        margin-top: 10px;
+        color: #34495e; /* Gris foncé */
+    }
+
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .post-image {
+        max-width: 30%;
+        height: 30%;
+        border-radius: 8px;
+    }
+
+    .action-bar {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .action-list {
+        display: flex;
+        gap: 10px;
+        margin-right: 10px;
+    }
+
+    .action-item a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .comment-count {
+        margin-left: auto;
+        color: #191919;
+    }
+</style>
+
+<section class="contact-us" id="contact">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Welcome to My Posts</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% for post in userPosts %}
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="down-content">
+                            <div class="user-info">
+                                <h2 class="user-name">{{ post.getUser().getPrenomuser() }} {{ post.getUser().getNomuser() }}</h2>
+                                <h6 class="post-date" style="padding-left:200px;">{{ post.dateCreationPost|date('Y-m-d') }}</h6>
+                            </div>
+                            <h4 class="post-title">{{ post.title }}</h4>
+                            <p class="post-description">{{ post.descriptionPost }}</p>
+                            {% if post.imagePost is not null %}
+                                <div class="image-container">
+                                    <img src="{{ asset(post.getImagePost()) }}" alt="" class="post-image">
+                                </div>
+                            {% endif %}
+                            <div class="action-bar">
+                                <ul class="action-list list-inline">
+                                    <li class="action-item list-inline-item">
+                                        <a href="{{ path('updatePost', {'postId': post.getId()}) }}" class="btn btn-primary">Edit Post</a>
+                                    </li>
+                                    <li class="action-item list-inline-item">
+                                        <a href="{{ path('deletePost', {'id': post.getId()}) }}" class="btn btn-secondary">Delete Post</a>
+                                    </li>
+                                </ul>
+                                <p class="comment-count">Number of Comments: {{ post.getNbresComments() }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# {{ knp_pagination_render(p) }} #}
+</section>
+{% endblock %}

@@ -1,64 +1,81 @@
-{% extends 'base.html.twig' %}
+{% extends 'firstbase.html.twig' %}
 
 {% block body %}
 
-    <section class="heading-page header-text" id="top">
+    <section class="meetings-page" id="meetings">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h6>Welcome to login page </h6>
-                    <h2>Join Us now </h2>
-                    <div class="btn bg-danger" style="color: white; text-decoration-color: white;">Sign Up here </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="filters">
+                                <section class="section register ">
+                                    {% for message  in app.flashes('message') %}
+                                        <div class="alert alert-info">
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                </section>
+                                <section class="section register ">
+                                    {% for danger  in app.flashes('danger') %}
+                                        <div class="alert alert-danger">
+                                            {{ danger }}
+                                        </div>
+                                    {% endfor %}
+                                </section>
+                                <div class="form-container" style="padding-left: 100px;">
+                                    <div style="background-color: #b62d2d; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                                width: 300px; text-align: center; color: #fff; margin-bottom: 20px; margin-top: 40px; align-items: center; align-text: center;">
+                                        {{ form_start(f, {'attr': {'novalidate': 'novalidate'}}) }}
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <h3>Sign In</h3>
+                                        </div>
+                                        <form style="display: flex;  flex-direction: column; padding-left: 200px;">
+                                            {#<div class="form-floating mb-3"style="margin-bottom: 15px; padding: 10px; border: none; border-radius: 4px;">
+                                            {{ form_row(f.mailuser) }}
+                                            {{ form_errors(f.mailuser) }}
+                                        </div>#}
+                                            <div class="form-floating mb-4" style="margin-bottom: 15px; padding: 10px; border: none; border-radius: 4px;">
+                                                <div class="form-group">
+                                                    <div class="formu-Postlabel">
+                                                        <label class="col-sn-4 col-form-label">Your Email </label>
+                                                        {{ form_widget(f.mailuser) }}
+                                                    </div>
+                                                    {{ form_errors(f.mailuser) }}
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="formu-Postlabel">
+                                                        <label class="col-sn-4 col-form-label">Your Password </label>
+                                                        {{ form_widget(f.mdpuser) }}
+                                                    </div>
+                                                    {{ form_errors(f.mdpuser) }}
+                                                </div>
+                                                {#{{ form_widget(f.mdpuser) }}
+                                            {{ form_errors(f.mdpuser) }}#}
+                                            </div>
+                                            {#<div class="form-group">
+                                            <li data-filter="*"><a href="{{ path('apptemplate') }}">{{ form_widget(f.SignUp) }}</a></li>
+                                        </div>#}
+                                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                                </div>
+                                                <a href="{{ path('forgot') }}" style="color: #fff;">Forgot Password</a>
+                                            </div>
+                                            <div style=" text-align: right; padding-bottom:20px; padding-right: 20px;">
+                                                <a href="{{ path('add_user') }}" style="color: #fff;">Sign Up</a>
+                                            </div>
+                                            {{ form_end(f) }}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-<section class="upcoming-meetings" >
-    <section class="section register">
-        {% for message in app.flashes('message') %}
-            <div class="alert alert-info">
-                {{ message }}
-            </div>
-        {% endfor %}
-    </section>
-
-    <section class="section register">
-        {% for danger in app.flashes('danger') %}
-            <div class="alert alert-danger">
-                {{ danger }}
-            </div>
-        {% endfor %}
-    </section>
-
-    <div class="cart-box-main d-flex align-items-center justify-content-center" style="padding-top: 50px;  ">
-        <div class="   form-control  container">
-            {{ form_start(f, {'attr': {'novalidate': 'novalidate', 'class': 'form-small'}}) }}
-
-            <div class="mb-3 text-center">
-                <h3 class="text-black">Sign In</h3>
-            </div>
-
-            <div class="mb-3">
-                {{ form_row(f.mailuser, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(f.mailuser) }}
-            </div>
-
-            <div class="mb-4">
-                {{ form_row(f.mdpuser, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(f.mdpuser) }}
-            </div>
-
-            <div class="mb-4 d-flex align-items-center justify-content-between">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
-                <a href="{{ path('forgot') }}">Forgot Password</a>
-            </div>
-
-            {{ form_end(f) }}
-        </div>
-    </div>
-</section>
 
 {% endblock %}

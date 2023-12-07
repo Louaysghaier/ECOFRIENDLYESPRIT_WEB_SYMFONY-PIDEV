@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{% block title %}Add Documents!{% endblock %}
+
+{% block body %}
+<section class="contact-us" id="contact">
+    <div class="form-container">
+    <table>
+
+        {# Ajoutez la classe "form-container" à l'élément du formulaire #}
+        {{ form_start(f, {'attr': {'class': 'form-container'}}) }}
+        <div class="align">
+    <tr>
+        <div class="form-group">
+        
+            {{ form_row(f.document_name) }}
+        </div>
+    </tr>
+    <tr>
+        <div class="form-group">
+            
+            {{ form_row(f.document_Type) }}
+        </div>
+    </tr>
+    {#<tr>
+        <div class="form-group">
+        
+        {{ form_row(f.imageFile) }}
+        </div>
+    </tr>
+        #}      <tr>
+
+            <div class="form-group">
+        
+            {{ form_row(f.niveau) }}
+        </div>
+    </tr>
+      <tr>
+        <div class="form-group">
+        
+            {{ form_row(f.semestre) }}
+        </div>
+    </tr>
+    <tr>
+        <div class="form-group">
+        
+            {{ form_row(f.document) }}
+        </div>
+    </tr>
+    
+  
+        {# Si vous avez exclu idUser du mappage, vous pouvez l'ajouter manuellement ici si nécessaire #}
+        {# <div class="form-group">
+            {{ form_label(form.idUser) }}
+            {{ form_row(form.idUser) }}
+        </div> #}
+
+        {# Bouton de soumission #}
+    <tr> 
+        <div class="form-group">
+            {{ form_row(f.modifier) }}
+        </div>
+    </tr>
+    </table>
+        {{ form_end(f) }}
+    </div>
+</section>
+{% endblock %}

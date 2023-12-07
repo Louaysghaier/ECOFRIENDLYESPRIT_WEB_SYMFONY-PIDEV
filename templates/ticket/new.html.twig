@@ -1,0 +1,89 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New Ticket{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: black;
+            color: grey;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+             margin-top:110px;
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Style pour les champs de formulaire */
+        .form-group label {
+            color: gray;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            background-color: rgba(169, 169, 169, 0.2);
+            border: 1px solid gray;
+            color: gray;
+            padding: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        /* Style pour le bouton de retour */
+        .btn-dark-gray {
+            background-color: #333;
+            border: 1px solid gray;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .btn-dark-gray:hover {
+            background-color: #666;
+        }
+
+        h1 {
+            color: red;
+        }
+
+        /* Style pour l'image container */
+        .image-container {
+            text-align: right;
+        }
+      
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="color: gray;">Create new Ticket</h1>
+
+        {% for flashType, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="alert alert-{{ flashType }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {{ include('ticket/_form.html.twig') }}
+
+        <div class="image-container">
+            <img src="{{ asset('css/tout.png') }}" width="300px">
+        </div>
+
+        <a href="{{ path('app_ticket_index') }}" class="btn btn-dark-gray">Back to list</a>
+    </div>
+{% endblock %}

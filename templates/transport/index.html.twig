@@ -1,0 +1,113 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Transport index{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+             margin-top:110px;
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        /* Style pour le titre */
+        h1 {
+            color: red;
+        }
+        /* Style pour la table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid white;
+        }
+        th {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        tr:nth-child(odd) {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        /* Style pour les liens */
+        .action-link {
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        .action-link:hover {
+            color: red;
+        }
+        /* Style pour les boutons */
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100px; /* Adjust the width as needed */
+        }
+        .btn-red {
+            background-color: red;
+        }
+        .btn-gray-dark {
+            background-color: #333; /* Dark gray color */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Transport index</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>NbrePlaces</th>
+                    <th>TypeTransport</th>
+                    <th>Disponibilite</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transport in transports %}
+                    <tr>
+                        <td>{{ transport.id }}</td>
+                        <td>{{ transport.nbrePlaces }}</td>
+                        <td>{{ transport.typeTransport }}</td>
+                        <td>{{ transport.disponibilite }}</td>
+                        <td>
+                            <a href="{{ path('app_transport_show', {'id': transport.id}) }}" class="btn btn-red">Show</a>
+                            <a href="{{ path('app_transport_edit', {'id': transport.id}) }}" class="btn btn-gray-dark">Edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_transport_new') }}" class="btn btn-red">Create New</a>
+    </div>
+{% endblock %}

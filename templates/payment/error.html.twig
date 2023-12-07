@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payment Error{% endblock %}
+
+{% block body %}
+<div style="margin-top: 100px; display: flex; flex-direction: column; align-items: center; text-align: center;">
+    <h4 style="color: red;">Échec de paiement en raison de l'insuffisance du solde!!</h4>
+    <h4 style="color: red;">Nom : {{ username }}</h4>
+
+    <h7>Votre solde du portefeuille est de : {{ walletUser }} dinars</h7>
+    <h7>Et le prix du billet est de : {{ ticketPrice }} dinars</h7>
+    <!-- Contenu ou logique supplémentaire pour la page d'erreur -->
+</div>
+<iframe width="350" height="430" allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/906a244d-d063-4066-9db8-b3aafdc5bb4b"></iframe>
+{% endblock %}

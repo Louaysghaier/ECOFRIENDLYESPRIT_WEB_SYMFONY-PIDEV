@@ -1,0 +1,133 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Ticket{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+             margin-top:110px;
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Style pour le titre */
+        h1 {
+            color: red;
+        }
+
+        /* Style pour la table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid white;
+        }
+
+        th {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        tr:nth-child(odd) {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Style pour les liens */
+        .action-link {
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .action-link:hover {
+            color: red;
+        }
+
+        /* Style pour les boutons */
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .button-container > *:not(:last-child) {
+            margin-right: 10px;
+        }
+
+        .btn-red,
+        .btn-gray {
+            display: inline-block;
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn-gray {
+            background-color: #333;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Ticket</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ ticket.id }}</td>
+                </tr>
+                <tr>
+                    <th>Prix</th>
+                    <td>{{ ticket.prix }}</td>
+                </tr>
+                <tr>
+                    <th>LieuDepart</th>
+                    <td>{{ ticket.lieuDepart }}</td>
+                </tr>
+                <tr>
+                    <th>LieuArrive</th>
+                    <td>{{ ticket.lieuArrive }}</td>
+                </tr>
+                <tr>
+                    <th>DateTicket</th>
+                    <td>{{ ticket.dateTicket ? ticket.dateTicket|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>StatutTicket</th>
+                    <td>{{ ticket.statutTicket }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="button-container">
+            <a href="{{ path('app_ticket_index') }}" class="btn-gray action-link">Back to list</a>
+            <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="btn-red action-link">Edit</a>
+        </div>
+
+        {{ include('ticket/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

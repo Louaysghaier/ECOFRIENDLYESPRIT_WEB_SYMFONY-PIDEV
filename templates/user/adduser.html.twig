@@ -1,19 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'firstbase.html.twig' %}
 {% block title %}Sign Up!{% endblock %}
 
 {% block body %}
-<section class="apply-now" id="apply">
-    <div class="contact-us" id="contact">
-        <div class=" form-control  ">
+    <section class="contact-us" id="contact">
+        <div class="form-container">
             <section class="section register ">
                 {% for danger  in app.flashes('danger') %}
                     <div class="alert alert-danger">
                         {{ danger }}
                     </div>
                 {% endfor %}
-
-                <h2 class="text-black"> Sign Up!</h2>
-                <table >
+                <h2> Sign Up!</h2>
+                <table>
 
                     {{ form_start(f, {'attr': {'novalidate': 'novalidate'}}) }}
                     <div class="align">
@@ -94,13 +92,12 @@
                         {# Bouton de soumission #}
                         <tr>
                             <div class="form-group">
-                                <li data-filter="*"><a href="{{ path('app_template') }}">{{ form_row(f.SignUp) }}</a></li>
+                                <li data-filter="*"><a href="{{ path('apptemplate') }}">{{ form_row(f.SignUp) }}</a></li>
                             </div>
                         </tr>
                     </div>
                 </table>
                 {{ form_end(f) }}
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}

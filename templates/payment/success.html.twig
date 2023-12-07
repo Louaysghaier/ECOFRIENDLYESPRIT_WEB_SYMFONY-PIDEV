@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement réussi{% endblock %}
+
+{% block body %}
+    <div style="margin-top: 100px; display: flex; flex-direction: column; align-items: center; text-align: center;">
+        
+        <h4 style="color: red;">Paiement effectué avec succès</h4>
+        <h4 style="color: red;">Nom : {{ username }}</h4>
+
+        username
+        <h7>Votre Solde du portefeuille est devenu : {{ walletUser }} dinars</h7>
+        <h7>Prix du billet : {{ ticketPrice }} dinars</h7>
+
+        <!-- Ajout des détails du ticket dans une carte -->
+        <a href="{{ path('payment_pdf', {'idBillet': ticket.id}) }}" style="text-decoration: none; color: inherit;">
+            <div class="card" style="max-width: 300px; border: 1px solid #e2e2e2; border-radius: 8px; overflow: hidden; margin: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                <div class="card-body">
+                    <div class="ticket-details">
+                        <strong>{{ ticket.lieuDepart }} - {{ ticket.lieuArrive }}</strong><br>
+                        Date du ticket : {{ ticket.dateTicket|date('Y-m-d H:i:s') }}<br>
+                        Prix : {{ ticket.prix }} Dinars<br>
+                    </div>
+                    
+                    <div class="ticket-image">
+                        {% set transportImage = '' %}
+                        {% if ticket.idTransport %}
+                            {% set transportType = ticket.idTransport.getTypeTransport() %}
+                            {% set transportImage = '/css/' ~ transportType|lower ~ '.png' %}
+                        {% endif %}
+                        <img src="{{ asset(transportImage) }}" alt="Ticket Image" width="80">
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        {% for flashMessage in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                {{ flashMessage }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+        
+         
+        <!-- Contenu ou logique supplémentaire pour la page de succès -->
+
+    </div>
+{% endblock %}

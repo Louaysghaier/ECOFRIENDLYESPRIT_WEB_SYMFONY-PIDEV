@@ -1,0 +1,338 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.css" />
+    <style>
+        /* Ajoutez vos styles CSS personnalisés ici */
+       body {
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        margin-top: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .column .ticket {
+        margin-top: 20px;
+    }
+
+    .column .ticket-image {
+        width: 100px;
+        height: auto;
+        margin-right: 20px;
+    }
+
+    .column .ticket-details{
+    "canvasWidth": 400,
+    "canvasHeight": 400,
+    "averageTicketPrice": 150,
+    "ticketWithHighestPrice": {
+        "lieuDepart": "Paris",
+        "lieuArrive": "New York",
+        "prix": 500
+    },
+    "ticketWithLowestPrice": {
+        "lieuDepart": "London",
+        "lieuArrive": "Berlin",
+        "prix": 50
+    },
+    "ticketStatusPercentages": {
+        "Pending": 40,
+        "Confirmed": 30,
+        "Cancelled": 10,
+        "Completed": 20
+    }
+}
+    .column .ticket-image {
+        width: 100px;
+        height: auto;
+        margin-right: 20px;
+    }
+
+    .column .ticket-details{
+    "canvasWidth": 400,
+    "canvasHeight": 400,
+    "averageTicketPrice": 150,
+    "ticketWithHighestPrice": {
+        "lieuDepart": "Paris",
+        "lieuArrive": "New York",
+        "prix": 500
+    },
+    "ticketWithLowestPrice": {
+        "lieuDepart": "London",
+        "lieuArrive": "Berlin",
+        "prix": 50
+    },
+    "ticketStatusPercentages": {
+        "Pending": 40,
+        "Confirmed": 30,
+        "Cancelled": 10,
+        "Completed": 20
+    }
+}
+
+        h1 {
+            color: red;
+        }
+
+        h6 {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+
+        .ticket {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .ticket-image {
+            width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .ticket-details h8 {
+            margin-bottom: 5px;
+        }
+
+        .btn-back {
+            color: white;
+            background-color: red;
+            padding: 10px 20px;
+            border: none;
+            margin-top: 20px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+           .btn-back {
+            color: white;
+            background-color: red;
+            padding: 10px 20px;
+            border: none;
+            margin-top: 20px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div style="margin-top: 159px; display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <h1>Statistics</h1>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="text-align: left; ">
+        <h6>Distribution des moyens de transport</h6>
+        <canvas id="transportChart" width="500" height="500"></canvas>
+      </div>
+     <div style="text-align: left;  ">
+       <h6 style="margin-top: 20px;"> Distribution des tickets par Statut:</h6>
+        {% if ticketStatusPercentages %}
+            <canvas id="statusChart" width="500" height="500"></canvas>
+        {% else %}
+            <p>No tickets found</p>
+        {% endif %}
+    </div>
+    </div>
+        <h6 style="margin-top: 20px; font-size: 16px;color:green;">le prix moyens des tickets :</h6>
+        <h8>{{ averageTicketPrice|number_format(2, '.', '') }} dinars</h8>
+     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="text-align: left; ">
+        <h6 style="margin-top: 20px;color:green;">Ticket avec le prx le plus élevé:</h6>
+        {% if ticketWithHighestPrice is not null %}
+            <div class="card" style="max-width: 300px; border: 1px solid #e2e2e2; border-radius: 8px; overflow: hidden; margin: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                <div class="card-body">
+                    <div class="ticket-details">
+                        <strong>{{ ticketWithHighestPrice.lieuDepart }} - {{ ticketWithHighestPrice.lieuArrive }}</strong><br>
+                        Date du ticket : {{ ticketWithHighestPrice.dateTicket|date('Y-m-d H:i:s') }}<br>
+                        Prix : {{ ticketWithHighestPrice.prix }} Dinars<br>
+                    </div>
+                    
+                    <div class="ticket-image">
+                        {% set transportImage = '' %}
+                        {% if ticketWithHighestPrice.idTransport %}
+                            {% set transportType = ticketWithHighestPrice.idTransport.getTypeTransport() %}
+                            {% set transportImage = '/css/' ~ transportType|lower ~ '.png' %}
+                        {% endif %}
+                        <img src="{{ asset(transportImage) }}" alt="Ticket Image" width="80">
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No tickets found</p>
+        {% endif %}
+        </div>
+        <div style="text-align: left;  ">
+        <h6 style="margin-top: 20px;color:green;">Ticket avec le prix le moins élevé:</h6>
+        {% if ticketWithLowestPrice is not null %}
+            <div class="card" style="max-width: 300px; border: 1px solid #e2e2e2; border-radius: 8px; overflow: hidden; margin: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                <div class="card-body">
+                    <div class="ticket-details">
+                        <strong>{{ ticketWithLowestPrice.lieuDepart }} - {{ ticketWithLowestPrice.lieuArrive }}</strong><br>
+                        Date du ticket : {{ ticketWithLowestPrice.dateTicket|date('Y-m-d H:i:s') }}<br>
+                        Prix : {{ ticketWithLowestPrice.prix }} Dinars<br>
+                    </div>
+                    
+                    <div class="ticket-image">
+                        {% set transportImage = '' %}
+                        {% if ticketWithLowestPrice.idTransport %}
+                            {% set transportType = ticketWithLowestPrice.idTransport.getTypeTransport() %}
+                            {% set transportImage = '/css/' ~ transportType|lower ~ '.png' %}
+                        {% endif %}
+                        <img src="{{ asset(transportImage) }}" alt="Ticket Image" width="80">
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No tickets found</p>
+        {% endif %}
+    </div>
+    </div>
+   <div class="center-btn">
+            <a href="{{ path('reservation_reserve') }}" class="btn-back">
+                retour
+            </a>
+        </div>
+    </div>
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
+    <script>
+        // Code to generate the transport distribution chart
+        var transportData = {
+            labels: [
+                {% for transportType, _ in transportPercentages %}
+                "{{ transportType }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                data: [
+                    {% for _, percentage in transportPercentages %}
+                    {{ percentage }},
+                    {% endfor %}
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var transportChartOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Transport Distribution'
+                }
+            },
+            layout: {
+                padding: {
+                    left: 50,
+                    right: 50,
+                    top: 40,
+                    bottom: 40
+                }
+            }
+        };
+
+        var transportChart = new Chart(document.getElementById('transportChart'), {
+            type: 'pie',
+            data: transportData,
+            options: transportChartOptions
+        });
+
+        // Code to generate the status chart
+        var statusData = {
+            labels: [
+                {% for status, _ in ticketStatusPercentages %}
+                "{{ status }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                data: [
+                    {% for _, percentage in ticketStatusPercentages %}
+                    {{ percentage }},
+                    {% endfor %}
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var statusChartOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                }
+            },
+            layout: {
+                padding: {
+                    left: 50,
+                    right: 50,
+                    top: 50,
+                    bottom: 50
+                }
+            }
+        };
+
+        var statusChart = new Chart(document.getElementById('statusChart'), {
+            type: 'bar',
+            data: statusData,
+            options: statusChartOptions
+        });
+    </script>
+{% endblock %}
+{% endblock %}

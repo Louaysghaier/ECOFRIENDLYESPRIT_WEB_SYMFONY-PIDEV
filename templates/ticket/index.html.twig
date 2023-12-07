@@ -1,0 +1,106 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Ticket index{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+             margin-top:110px;
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        /* Style pour le titre */
+        h1 {
+            color: red;
+        }
+        /* Style pour la table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid white;
+        }
+        th {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        tr:nth-child(odd) {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        /* Style pour les liens d'action */
+        .action-link {
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        .action-link:hover {
+            color: red;
+        }
+        /* Style pour les boutons */
+        .btn-red {
+            background-color: red;
+            color: white;
+        }
+        .btn-gray {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Ticket index</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Prix</th>
+                    <th>LieuDepart</th>
+                    <th>LieuArrive</th>
+                    <th>DateTicket</th>
+                    <th>StatutTicket</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.id }}</td>
+                    <td>{{ ticket.prix }}</td>
+                    <td>{{ ticket.lieuDepart }}</td>
+                    <td>{{ ticket.lieuArrive }}</td>
+                    <td>{{ ticket.dateTicket ? ticket.dateTicket|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ ticket.statutTicket }}</td>
+                    <td>
+                        <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="btn btn-red">Show</a>
+                        <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="btn btn-gray">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_ticket_new') }}" class="btn btn-red">Create new</a>
+    </div>
+{% endblock %}

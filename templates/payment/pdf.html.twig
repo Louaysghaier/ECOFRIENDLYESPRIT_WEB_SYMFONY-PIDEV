@@ -1,0 +1,76 @@
+
+
+{% block title %}Veuillez télécharger le ticket{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            max-width: 600px;
+            border: 1px solid #e2e2e2;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+        }
+
+        .card-body {
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .ticket-details {
+            padding-bottom: 20px;
+        }
+
+        .ticket-details strong {
+            font-size: 18px;
+        }
+
+        .ticket-details span {
+            font-size: 14px;
+        }
+
+        .ticket-image {
+            padding-top: 10px;
+            text-align: center;
+        }
+
+        .ticket-image img {
+            display: block;
+            margin: 0 auto;
+            width: 120px;
+        }
+    </style>
+
+    <script>
+        // Ajoutez ici tout code JavaScript pour améliorer la fonctionnalité de la page
+    </script>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Détails du Ticket</h5>
+                <div class="ticket-details">
+                    <strong>{{ ticket.lieuDepart }} - {{ ticket.lieuArrive }}</strong><br>
+                    <span>Date du ticket : {{ ticket.dateTicket|date('Y-m-d H:i:s') }}</span><br>
+                    <span>Prix : {{ ticket.prix }} Dinars</span><br>
+                </div>
+
+               
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Statistics{% endblock %}
+
+
+
+{% block body %}
+
+    <style>
+        .chart-section {
+            justify-content: center;
+            align-items: center;
+            width: 80%; /* Adjust the width of the chart section */
+            height: 80%;
+        }
+        .small-row {
+            margin-left: 150px; /* Adjust the height of the row */
+        }
+        #orderChart,
+        #serviceChart {
+            width: 10%; /* Adjust the width of the charts */
+            height: 10%; /* Adjust the height of the charts */
+            display: block;
+        }
+    </style>
+    <div style=" align-items: center; text-align: center;">
+        <div class="container mt-3">
+            <h1 class="text-center mb-4">Order Statistics</h1>
+
+            <div class="row small-row">
+                <div class="col-sm-6">
+                    <div class="chart-section text-center">
+                        <h2>Total Orders Chart</h2>
+                        <canvas id="orderChart" width="150" height="100"></canvas>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="chart-section text-center mt-4">
+                        <h2>Service Statistics</h2>
+                        <p class="bg-danger text-white" >Total Orders Count: {{ totalOrdersCount }}</p>
+                        <p class="bg-danger text-white">Average Order Price: {{ averagePrice }}</p>
+                        <canvas id="serviceChart" width="150" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        // Parse JSON data from PHP to JavaScript
+        var orderDates = {{ orderDates|raw }};
+        var totalOrders = {{ totalOrders|raw }};
+        var serviceDataLabels = {{ serviceDataLabels|raw }};
+        var serviceDataValues = {{ serviceDataValues|raw }};
+
+        // Chart for Total Orders
+        var orderCtx = document.getElementById('orderChart').getContext('2d');
+        var orderChart = new Chart(orderCtx, {
+            type: 'line',
+            data: {
+                labels: orderDates,
+                datasets: [{
+                    label: 'Total Orders',
+                    data: totalOrders,
+                    borderWidth: 1,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)'
+                }]
+            },
+            options: {
+                maintainAspectRatio: false
+            }
+        });
+
+        // Chart for Service Data
+        var serviceCtx = document.getElementById('serviceChart').getContext('2d');
+        var serviceChart = new Chart(serviceCtx, {
+            type: 'bar',
+            data: {
+                labels: serviceDataLabels,
+                datasets: [{
+                    label: 'Service Prices',
+                    data: serviceDataValues,
+                    borderWidth: 1,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)'
+                }]
+            },
+            options: {
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+{% endblock %}

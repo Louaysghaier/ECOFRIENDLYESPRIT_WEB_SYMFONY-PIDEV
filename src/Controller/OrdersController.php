@@ -331,7 +331,7 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
     {
         // Vos identifiants Twilio
         $accountSid = 'AC3d76eb9005b49c7a2a73ce650a34c6f5';
-        $authToken = '159461fe9e711b3c74b8f86e51098960';
+        $authToken = 'b1b34677417c044d2491c0c61e8a2492';
         $twilioNumber = '+17196940243';
 
         // Le numéro de téléphone de destination
@@ -371,7 +371,7 @@ public function checkout(OrdersRepository $ordersRepository, Request $request): 
         }
 
         $entityManager->flush();
-        //$this->sendSms();
+        $this->sendSms();
         $this->addFlash('success', ' Thank You For Trusting Us!! a secret code has been sent to your phone !');
 
         //add a mail logic to send mail to that user

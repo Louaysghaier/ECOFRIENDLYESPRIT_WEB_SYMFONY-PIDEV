@@ -1,0 +1,74 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New Transport{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+             margin-top:110px;
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Style pour le titre */
+        h1 {
+            color: red;
+        }
+        
+        /* Style pour les liens */
+        .action-link {
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        
+        .action-link:hover {
+            color: red;
+        }
+
+        /* Style pour les boutons */
+        .button-container {
+            display: flex;
+            margin-top: 10px;
+        }
+        
+        .button-container .btn {
+            margin-right: 10px;
+        }
+        
+        /* Style pour l'image */
+        .container img {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Create new Transport</h1>
+
+        {{ include('transport/_form.html.twig') }}
+
+        <img src="{{ asset('/css/hadil.png') }}" alt="Image">
+
+        <div class="button-container">
+            <a href="{{ path('app_transport_index') }}" class="btn btn-secondary">Back to List</a>
+        </div>
+
+      
+    </div>
+{% endblock %}

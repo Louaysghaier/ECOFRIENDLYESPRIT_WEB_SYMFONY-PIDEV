@@ -1,0 +1,44 @@
+{% extends 'back.html.twig' %}
+{% block title %} List Topic {% endblock %}
+  
+  
+  {% block body %}
+
+<!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="form-container text-center"> 
+                        <div class="col-12">
+                            <div class="bg-secondary rounded h-100 p-4">
+                                <h6 class="mb-4">List Topic</h6>
+                                <div class="table-responsive">
+                                    <table class="table" align="center">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">topic</th>
+                                                
+                                                {#<th scope="col">Action</th>#}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for topic in t %}
+                                                <tr>
+                                                    {#<td>{{post.prenomUser}}</td>
+                                                    <td>{{post.nomUser}}</td>#}
+                                                    <td>{{topic.topicName}}</td>
+                                                   
+                                                    {#<td>
+                                                        <a href="{{ path('updatePost', {'postId': topic.getId()}) }}">Edit</a>
+                                                        <a href="{{ path('Deletepost', {'postId': post.getId()}) }}">Delete</a>
+                                                    </td>#}
+                                                </tr>
+                                                {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}

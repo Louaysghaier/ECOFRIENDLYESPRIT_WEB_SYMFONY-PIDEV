@@ -9,7 +9,7 @@
             {% if event is not empty %}
                 <div class="card">
                     {% if event.getImage() is not empty %}
-                        <img src="{{ asset('uploads/eventim/' ~ event.getImage()) }}" class="card-img-top" alt="{{ event.getNomevent() }}">
+                        <img src="{{ asset('uploads/images/' ~ event.getImage()) }}" class="card-img-top" alt="{{ event.getNomevent() }}">
                     {% endif %}
                     <div class="card-body">
                         <ul class="list-group list-group-flush">

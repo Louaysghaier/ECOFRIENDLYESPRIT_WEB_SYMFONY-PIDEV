@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DOCS{% endblock %}
+        
+       
+
+{% block body %}
+ <script src="{{ asset('shopjs/js/jquery.superslides.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/bootstrap-select.js') }}"></script>
+<script src="{{ asset('shopjs/js/inewsticker.js') }}"></script>
+<script src="{{ asset('shopjs/js/bootsnav.js') }}"></script>
+<script src="{{ asset('shopjs/js/images-loded.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/isotope.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/baguetteBox.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/form-validator.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/contact-form-script.js') }}"></script>
+<script src="{{ asset('shopjs/js/custom.js') }}"></script>
+<!-- ALL JS FILES -->
+<script src="{{ asset('shopjs/js/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/popper.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/bootstrap.min.js') }}"></script>
+<!-- ALL PLUGINS -->
+           
+     <!-- css  -->
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/responsive.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/style.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/bootstrap.min.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/custom.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/show_details.css') }}">
+    
+    
+
+    <section class="heading-page header-text" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6>Library corner</h6>
+                    <h2>Doc  & Pleasure</h2>
+                    <div class="btn bg-danger" style="color: white; text-decoration-color: white;">Contact Us For Feedbacks !</div>
+                </div>
+            </div>
+        </div>
+    </section>    
+ <!-- Start Shop Detail  -->
+    <section class="shop-detail-box-main ">
+        <div class="container ">
+            <div class="row">
+                <div class="col-xl-5 col-lg-5 col-md-6">
+                    <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active"> <img class="d-block w-100" src="{{ asset('uploads/images/' ~ d.document) }}" alt="First slide"> </div>
+                            <div class="carousel-item"> <img class="d-block w-100" src="{{ asset('uploads/images/' ~ d.document) }}" alt="Second slide"> </div>
+                            <div class="carousel-item"> <img class="d-block w-100" src="{{ asset('uploads/images/' ~ d.document) }}" alt="Third slide"> </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel-example-1" role="button" data-slide="prev"> 
+						<i class="fa fa-angle-left" aria-hidden="true"></i>
+						<span class="sr-only">Previous</span> 
+					</a>
+                        <a class="carousel-control-next" href="#carousel-example-1" role="button" data-slide="next"> 
+						<i class="fa fa-angle-right" aria-hidden="true"></i> 
+						<span class="sr-only">Next</span> 
+					</a>
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-1" data-slide-to="0" class="active">
+                                <img class="d-block w-100 img-fluid" src="{{ asset('uploads/images/' ~ d.document) }}" alt="" />
+                            </li>
+                            <li data-target="#carousel-example-1" data-slide-to="1">
+                                <img class="d-block w-100 img-fluid" src="{{ asset('uploads/images/' ~ d.document) }}" alt="" />
+                            </li>
+                            <li data-target="#carousel-example-1" data-slide-to="2">
+                                <img class="d-block w-100 img-fluid" src="{{ asset('uploads/images/' ~ d.document) }}" alt="" />
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-xl-7 col-lg-7 col-md-6">
+                    <div class="single-product-details">
+                        <h2>Document name: {{ d.documentName }}</h2>
+                        <h5> Niveau : <b>{{ d.Niveau }}</b> </h5>
+                        <p class="available-stock"><span> More than 20 available for the topic:<a href="#"><b>{{ d.idtopic.topicName }} </a></span><p>
+						<h4>Short Description :</h4>
+						<p>Our document are available in ECODRIENDLY ESPRIT 
+                        for all our students for exemple here 
+                        check other docs or contact us now  </p>
+						
+                        <ul>
+							<li>
+								
+						        <label class="control-label">Rating here : </label>
+                            <div class='formrating'>
+                                {{ form_start(form) }}
+                                {{ form_row(form) }}
+                                <div class="cart-and-bay-btn">
+                                <button class="btn hvr-hover" data-fancybox-close="" type="submit">Rate Doc</button>
+                                	</div>
+                                {{ form_end(form) }}
+                            </div>
+
+                            <style>
+                                .formrating {
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: center;
+                                }
+
+                                .formrating button {
+                                    margin-left: 10px;
+                                }
+                                </style>
+							</li>
+						</ul>
+						<div class="price-box-bar">
+							<div class="cart-and-bay-btn">
+								<a class="btn hvr-hover" data-fancybox-close="" href="#">Get Now</a>
+								<a class="btn hvr-hover" data-fancybox-close="" href="#">Add to cart</a>
+							</div>
+						</div>
+
+						<div class="add-to-btn">
+							<div class="add-comp">
+								<a class="btn hvr-hover" href="#"><i class="fas fa-heart"></i> Add to wishlist</a>
+								<a class="btn hvr-hover" href="#"><i class="fas fa-sync-alt"></i> Add to Compare</a>
+							</div>
+							<div class="share-bar">
+							<a class="btn hvr-hover" href="#" onclick="shareOnFacebook(); return false;">
+  <i class="fab fa-facebook" aria-hidden="true"></i>
+</a>
+
+<script>
+function shareOnFacebook() {
+    var currentURL = encodeURIComponent(window.location.href);
+    var facebookShareURL = 'https://www.facebook.com/sharer/sharer.php?u=' + currentURL;
+    window.open(facebookShareURL, 'Share on Facebook', 'width=600,height=400');
+}
+</script>
+
+
+								<a class="btn hvr-hover" href="https://mail.google.com/mail/u/0/#inbox"><i class="fab fa-google-plus" aria-hidden="true"></i></a>
+								<a class="btn hvr-hover" href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+								<a class="btn hvr-hover" href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
+								<a class="btn hvr-hover" href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div> 
+        </div>  
+    </section>    
+
+ 
+{% endblock %}

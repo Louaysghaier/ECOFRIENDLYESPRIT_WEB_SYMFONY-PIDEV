@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}avis sur les moyens de transport{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .rating {
+            font-size: 24px;
+            display: inline-block;
+        }
+
+        .rating .star {
+            cursor: pointer;
+        }
+
+        .rating .star:before {
+            content: "\2606";
+        }
+
+        .rating .star.star-filled:before {
+            content: "\2605";
+            color: yellow;
+            font-size: 30px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div style="margin-top: 100px; text-align: center; ">
+        <h1>avis sur les moyens de transport</h1>
+
+        <div class="d-flex justify-content-between flex-wrap">
+            {% for vehicle in vehicles %}
+                <div class="card" style="flex: 0 0 calc(20% - 10px); margin-bottom: 20px;">
+                    <img src="{{ asset('/css/' ~ vehicle.image) }}" alt="{{ vehicle.title }}" class="card-img-top"
+                         style="object-fit: cover; height: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ vehicle.title }}</h5>
+
+                        <!-- Rating System -->
+                        <div class="rating" data-rating="{{ vehicle.rating }}">
+                            <div class="rating-stars">
+                                {% for star in 1..5 %}
+                                    <span class="star {% if star <= vehicle.rating %}star-filled{% endif %}" data-value="{{ star }}"></span>
+                                {% endfor %}
+                            </div>
+                            <div class="rating-value">{{ vehicle.rating }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="w3-row" style="display: flex;">
+        <div class="w3-col m4 w3-hide-small" style="flex: 1;">
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ absolute_url(path('app_photos_gallery')) }}" class="share facebook">
+                <button class="w3-button w3-padding-small w3-light-blue w3-border w3-medium">
+                    <svg style="width: 30px; height: 30px; margin-top: 5px; margin-bottom: 5px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    <b>Share</b>
+                </button>
+            </a>
+                 <a href="{{ path('reservation_reserve') }}" class="card-button">Retour</a>
+
+        </div>
+    </div>
+         
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let ratings = document.querySelectorAll('.rating');
+
+            ratings.forEach(function (ratingContainer) {
+                let stars = ratingContainer.querySelectorAll('.star');
+                let ratingValue = ratingContainer.querySelector('.rating-value');
+
+                stars.forEach(function (star) {
+                    star.addEventListener('click', function () {
+                        let value = star.getAttribute('data-value');
+
+                        stars.forEach(function (s) {
+                            let starValue = s.getAttribute('data-value');
+                            s.classList.toggle('star-filled', starValue <= value);
+                        });
+
+                        ratingValue.textContent = value;
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

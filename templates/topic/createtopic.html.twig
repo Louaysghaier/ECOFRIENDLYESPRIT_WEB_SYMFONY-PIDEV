@@ -1,0 +1,28 @@
+{% extends 'back.html.twig' %}
+{% block title %}Add Topic!{% endblock %}
+
+{% block body %}
+<section class="contact-us" id="contact">
+    <div class="form-container text-center">
+    <table>
+
+        {# Ajoutez la classe "form-container" à l'élément du formulaire #}
+        {{ form_start(f, {'attr': {'class': 'form-container'}}) }}
+        <div class="align">
+    <tr>
+        <div class="form-group">
+        
+            {{ form_row(f.topic_name) }}
+        </div>
+    </tr>
+    <tr> 
+        <div class="form-group">
+            {{ form_row(f.ajouter) }}
+        </div>
+    </tr>
+    </table>
+        {{ form_end(f) }}
+    </div>
+    </div>
+</section>
+{% endblock %}

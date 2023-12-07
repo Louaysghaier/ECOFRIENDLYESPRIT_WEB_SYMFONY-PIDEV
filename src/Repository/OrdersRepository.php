@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Orders;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -83,5 +84,22 @@ class OrdersRepository extends ServiceEntityRepository
             ->setParameter('status', 'wanted')
             ->getQuery()
             ->getSingleScalarResult();
+    }
+    public function getTotalOrdersPerDay(): array
+    {
+        return $this->createQueryBuilder('o')
+            ->select('COUNT(o) as totalOrders', 'o.pickupdatetime as orderDate')
+            ->groupBy('orderDate')
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+    }
+
+    public function getAverageOrderPrice(): ?float
+    {
+        $query = $this->createQueryBuilder('o')
+            ->select('AVG(o.priceorder) as averagePrice')
+            ->getQuery();
+
+        return $query->getSingleScalarResult();
     }
 }

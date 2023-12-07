@@ -3,29 +3,37 @@
 {% block title %}User Profile{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h2>User Profile</h2>
+    <section class="contact-us" id="contact">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h2 class="text-center mb-4">User Profile</h2>
 
-        <dl>
-            <dt>Nom:</dt>
-            <dd>{{ user.nomuser }}</dd>
+                    <dl class="row">
+                        <dt class="col-sm-4">Nom:</dt>
+                        <dd class="col-sm-8">{{ user.nomuser }}</dd>
 
-            <dt>Prenom:</dt>
-            <dd>{{ user.prenomuser }}</dd>
+                        <dt class="col-sm-4">Prenom:</dt>
+                        <dd class="col-sm-8">{{ user.prenomuser }}</dd>
 
-            <dt>Email:</dt>
-            <dd>{{ user.mailuser }}</dd>
+                        <dt class="col-sm-4">Email:</dt>
+                        <dd class="col-sm-8">{{ user.mailuser }}</dd>
 
-            <dt>Adresse:</dt>
-            <dd>{{ user.adressuser }}</dd>
+                        <dt class="col-sm-4">Adresse:</dt>
+                        <dd class="col-sm-8">{{ user.adressuser }}</dd>
 
-            <dt>Classe:</dt>
-            <dd>{{ user.classeuser }}</dd>
+                        <dt class="col-sm-4">Classe:</dt>
+                        <dd class="col-sm-8">{{ user.classeuser }}</dd>
 
-            <dt>Role:</dt>
-            <dd>{{ user.roleuser }}</dd>
-        </dl>
+                        <dt class="col-sm-4">Role:</dt>
+                        <dd class="col-sm-8">{{ user.roleuser }}</dd>
+                    </dl>
 
-        <a href="{{ path('app_user_edit', {'id': user.iduser}) }}">Edit</a>
-    </div>
+                    <div class="text-center">
+                        <a href="{{ path('app_user_edit', {'id': user.iduser}) }}" class="btn btn-primary">Modifier</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

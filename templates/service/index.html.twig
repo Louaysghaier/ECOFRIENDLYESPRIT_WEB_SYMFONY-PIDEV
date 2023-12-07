@@ -18,8 +18,8 @@
                             <strong>Price:</strong> {{ service.price }}
                         </p>
                         <div class="btn-group">
-                            <a href="{{ path('app_service_show', {'serviceid': service.serviceid}) }}" class="btn btn-info">Show</a>
-                            <a href="{{ path('app_service_edit', {'serviceid': service.serviceid}) }}" class="btn btn-warning">Edit</a>
+                            <a href="{{ path('app_service_show', {'serviceid': service.serviceid}) }}" class="btn bg btn-outline-light">Show</a>
+                            <a href="{{ path('app_service_edit', {'serviceid': service.serviceid}) }}" class="btn text-white btn-danger">Edit</a>
                         </div>
                     </div>
                 </div>
@@ -30,6 +30,8 @@
             {% endfor %}
         </div>
 
-        <a href="{{ path('app_service_new') }}" class="btn bg-danger mt-4">Create new</a>
+        <a href="{{ path('app_service_new') }}" class="btn text-white bg-danger mt-4">Create new</a>
+        <a href="{{ path('app_statistics') }}" class="btn text-white bg-danger mt-4">Show Statistics</a>
+
     </section>
 {% endblock %}

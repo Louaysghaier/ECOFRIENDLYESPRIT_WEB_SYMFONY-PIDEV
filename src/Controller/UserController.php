@@ -103,7 +103,7 @@ class UserController extends AbstractController
                     // Log user data to the console
                     $this->addFlash('success', 'Login successful. Check the console for user data.');
 
-                    return $this->redirectToRoute('user_profile', ['id' => $user->getIduser()]);
+                    return $this->redirectToRoute('user_profile+', ['id' => $user->getIduser()]);
                 }
             } else {
                 $this->addFlash('error', 'Invalid credentials');

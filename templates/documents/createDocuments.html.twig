@@ -1,0 +1,233 @@
+{% extends 'base.html.twig' %}
+{% block title %}Add Documents!{% endblock %}
+
+{% block body %}
+    <style>
+    .form-container {
+        max-width: 600px;
+        margin: auto;
+        margin-top: 120px;
+
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    /* Center the form title */
+    .form-container h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    /* Style form groups */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* Style form labels */
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    /* Style form inputs and error messages */
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-group td {
+        color: red; /* Color for error messages */
+    }
+
+    /* Style the submit button */
+    .form-group button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .form-group button:hover {
+        background-color: #45a049;
+    }
+
+
+    .thumb img {
+        .thumb img {
+            max-width: 100%;
+            height: auto;
+            display: inline-block;
+        }
+    }
+    .thumb {
+        text-align: center;
+    }
+
+
+
+
+    .meeting-item .thumb {
+        position: relative;
+    }
+
+    .meeting-item .thumb img {
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+    }
+
+    .meeting-item .thumb .price {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+    }
+
+    .meeting-item .thumb .price span {
+        font-size: 16px;
+        color: #1f272b;
+        font-weight: 600;
+        background-color: rgba(250,250,250,0.9);
+        padding: 7px 12px;
+        border-radius: 10px;
+    }
+
+    .meeting-item .down-content {
+        background-color: #fff;
+        padding: 30px;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+
+    .meeting-item .down-content .date {
+        float: left;
+        text-align: center;
+        display: inline-block;
+        margin-right: 20px;
+    }
+
+    .meeting-item .down-content .date h6 {
+        font-size: 13px;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #a12c2f;
+    }
+
+    .meeting-item .down-content .date span {
+        display: block;
+        color: #1f272b;
+        font-size: 22px;
+        margin-top: 7px;
+    }
+
+    .meeting-item .down-content h4 {
+        font-size: 18px;
+        color: #1f272b;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    .meeting-item .down-content p {
+        margin-left: 50px;
+        color: #1f272b;
+        font-size: 14px;
+    }
+    .show-btn {
+        background-color: #3498db; /* Button background color */
+        color: #ffffff; /* Button text color */
+        padding: 10px 15px; /* Adjust padding as needed */
+        text-decoration: none;
+        border-radius: 5px; /* Rounded corners */
+        transition: background-color 0.3s ease; /* Smooth hover transition */
+
+        /* Add hover effect */
+
+        &:hover {
+            background-color: #2980b9; /* Darker background color on hover */
+        }
+
+        .down-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .document-name {
+            flex-grow: 1; /* Takes the available space */
+            text-align: left;
+        }
+
+        .show-button {
+            text-align: center;
+        }
+    }
+
+</style>
+<section class="Dsection" id="contact">
+    <div class="form-container">
+        <table>
+            {{ form_start(f, {'attr': {'class': 'form-container', 'novalidate': 'novalidate'}}) }}
+            <div class="text-center">
+                <h2>ADD DOCUMENTS!</h2>
+            </div>
+            <div class="align">
+                <tr>
+                    <div class="form-group">
+                        {{ form_row(f.documentName) }}
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                        {{ form_row(f.document_Type) }}
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                        {{ form_row(f.niveau) }}
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                        {{ form_row(f.semestre) }}
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                        {{ form_row(f.document) }}
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                   {{ form_row(f.idtopic) }}
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                        {{ form_row(f.ajouter) }}
+                    </div>
+                </tr>
+                <tr>
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        <div class="alert alert-success">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                </tr>
+            </div>
+            {{ form_end(f) }}
+        </table>
+    </div>
+</section>
+
+{# Add the script to display the alert #}
+
+{% endblock %}

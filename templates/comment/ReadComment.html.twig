@@ -1,0 +1,39 @@
+{% extends 'back.html.twig' %}
+{% block title %} List Comments {% endblock %}
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <table border="2">
+    <div style="display: flex, align-items: center; justify-content:center">
+        <thead>
+            <th>First Name User</th>
+            <th>Last name User</th>
+            <th>Description </th>
+            <th>Date of Creation</th>
+            
+        </thead>
+        <tbody>
+        {% for comment in c %}
+        <tr>
+            <td>{{comment.prenomUser}}</td>
+            <td>{{comment.nomUser}}</td>
+            <td>{{comment.subject}}</td>
+            <td>{{comment.title}}</td>
+            <td>{{comment.descriptionp}}</td>
+            <td>{{comment.image}}</td>
+            <td>{{comment.nbrecomment}}</td>
+            <td>{{comment.dateCreationp}}</td>
+           {# <td>
+                <a href="{{}}"
+            </td> #}
+        </tr>
+        {% endfor %}
+        </tbody>
+        </div>
+    </table>
+</div>
+{% endblock %}
